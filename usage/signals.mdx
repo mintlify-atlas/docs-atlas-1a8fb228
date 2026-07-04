@@ -1,0 +1,72 @@
+---
+title: "What Counts as a Signal Worth Capturing"
+sidebarTitle: "Signals"
+description: "Signals are anything that may deserve later attention — repos, tools, guides, ideas, patterns, or sparks — captured before you know why they matter."
+---
+
+A signal is anything that may be worth later attention. It does not need to be immediately useful, relevant to a current project, or fully understood at the moment you find it. The job of a signal is simply to be noticed and preserved. The library handles the rest — analysis, classification, and decision — as a separate step after capture.
+
+<Info>
+  The library does not require you to know why a signal matters at capture time. The point is to preserve the trace, then turn it into a decision later. Skipping capture because you are unsure of relevance defeats the purpose of the system.
+</Info>
+
+## What a Signal Can Be
+
+Signals come in many forms. Any of the following is a valid candidate for `00_INBOX`:
+
+<CardGroup cols={2}>
+  <Card title="Repository" icon="code-branch" href="/usage/daily-flow">
+    A GitHub or other hosted repository — a library, framework, tool, example project, or proof of concept you want to inspect later.
+  </Card>
+  <Card title="Guide or Tutorial" icon="book-open" href="/usage/daily-flow">
+    A walkthrough, how-to, recipe, or step-by-step explanation of a technique, setup, or workflow pattern.
+  </Card>
+  <Card title="Tool or Service" icon="wrench" href="/usage/daily-flow">
+    A product, API, SaaS offering, or CLI utility you may want to evaluate for fit in your stack or workflow.
+  </Card>
+  <Card title="Idea or Spark" icon="lightbulb" href="/usage/daily-flow">
+    A concept, approach, or half-formed pattern that caught your attention and may become useful in a future context.
+  </Card>
+  <Card title="Directory or List" icon="list" href="/usage/daily-flow">
+    An aggregated resource — an awesome list, a curated collection, a category of tools — where individual candidates may be worth extracting later.
+  </Card>
+  <Card title="Pattern or Research" icon="flask" href="/usage/daily-flow">
+    An architectural pattern, design approach, academic paper, or research project worth keeping as reference or as a possible extract target.
+  </Card>
+</CardGroup>
+
+## The Item Type Taxonomy
+
+Once a signal is processed, it receives a `type/*` tag that describes what kind of object the link actually is — independent of where it came from or how useful it turns out to be.
+
+| Tag | Describes |
+|---|---|
+| `type/repo` | A hosted code repository |
+| `type/guide` | A walkthrough or how-to |
+| `type/paper` | Academic or research writing |
+| `type/service` | A product, SaaS, or API |
+| `type/directory` | A curated list or aggregation |
+| `type/pattern` | A design or architectural pattern |
+| `type/tutorial` | A step-by-step instructional resource |
+| `type/idea` | A concept or workflow spark |
+| `type/framework` | A structured methodology or runtime |
+| `type/docs` | Official documentation or reference |
+
+## The Source Taxonomy
+
+The `source/*` tag records where an item came from, not what it is. Source and type are independent judgments.
+
+A common example: `source/github` means the link points to GitHub. It does not mean the item is code. A GitHub link may be a repository, a documentation site, a guide, a pattern writeup, a research project, an idea, or a directory of other resources. Source is not a fit judgment — it is provenance.
+
+## Signals That Are Not Yet Clearly Useful
+
+Many of the most valuable captures will not look obviously useful at save time. That is expected. The following are all legitimate signals even when their relevance is unclear:
+
+- A GitHub repository with one good idea buried in the README
+- A tool that may fit a workflow you have not designed yet
+- A guide you do not have time to read right now
+- A product worth checking once pricing changes or a free tier appears
+- A directory full of possible candidates, none individually evaluated
+- A research spark with no immediate application
+
+The library is designed to hold these without judgment. Pending entries in `00_INBOX` and `10_REVIEW` are not clutter — they are deferred decisions waiting for the right moment.

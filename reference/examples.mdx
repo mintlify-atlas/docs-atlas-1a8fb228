@@ -1,0 +1,116 @@
+---
+title: "Golden Classification Examples for Decision Rain"
+sidebarTitle: "Examples"
+description: "Three canonical classification examples that anchor the Decision Rain taxonomy and prevent tag drift when evaluating new entries."
+---
+
+Taxonomy drift happens when reviewers invent new tags for situations that already have a correct classification. These three golden examples are the canonical reference for the most common classification scenarios in the Decision Rain workflow. Before creating a new tag or assigning a status you are unsure about, check whether one of these examples already covers the situation.
+
+When facing an ambiguous new entry, treat these examples as templates: find the example whose shape most closely matches the new entry, copy its tag set as a starting point, and adjust only the dimensions that genuinely differ. This keeps the tag vocabulary stable and the library consistent.
+
+<Note>
+  New classifications should imitate these examples before creating new tags. If none of the three examples fits, check the tag registry before inventing new vocabulary.
+</Note>
+
+## The Three Canonical Examples
+
+<Accordion title="Example 1 — GitHub Framework With Strong Idea But Poor Implementation Fit">
+
+This example covers a framework that has real intellectual value — the core idea is sound and worth preserving — but whose implementation is not practical for the operator's current stack or setup capacity. The critical distinction is that `status/core-good` is correct here, not `status/ready`. The idea is good; the tool is not adoptable right now.
+
+`next/extract` is the correct action because the operator should pull the idea or pattern from the framework without committing to the tool itself. Adopting the tool would introduce stack friction (Kotlin in this case) and ecosystem risk that outweighs the benefit of having a pre-built implementation.
+
+**Collection:** `20_LIBRARY`
+
+**Tags:**
+
+```text
+source/github, type/framework, domain/agents, stack/kotlin, authority/source-code, authority/vendor-claim, truth/plausible, status/core-good, risk/ecosystem-mismatch, fit/dev-heavy, next/extract, scenario/power-user
+```
+
+**Note:**
+
+```text
+Cataloged: YYYY-MM-DD
+Verdict: core idea valuable, implementation not practical now.
+Next: extract pattern, do not adopt the tool.
+Claim: framework for structured multi-step agents.
+Evidence: source code and examples exist, but limited evidence of daily use.
+Authority: source-code plus vendor-claim.
+Truth: plausible.
+StackFit: poor implementation fit due to stack/setup friction; useful as idea extraction.
+```
+
+**Why these classifications are correct:**
+
+`status/core-good` is used instead of `status/ready` because the framework passes the idea test but fails the fit test. The source code and examples exist (`authority/source-code`), which is stronger than a vendor README alone, but there is limited evidence of production use, so `truth/plausible` applies rather than `truth/verified`. The `risk/ecosystem-mismatch` tag flags that the stack difference is the primary blocker, not the quality of the idea. Anyone reading this entry later will immediately understand: extract the pattern, skip the dependency.
+
+</Accordion>
+
+<Accordion title="Example 2 — GitHub Guide or Docs">
+
+This example covers a guide or documentation resource that explains a workflow or technical pattern clearly enough to be reproduced. The key distinction from Example 1 is that `truth/verified` applies here — the docs and examples are clear, reproducible, and do not depend on trusting unverified vendor claims. The item earns `status/reference` because it is not something to act on immediately, but it is a reliable resource to retrieve when a matching workflow comes up.
+
+`next/revisit` signals that the operator should return to this entry when the right implementation context arrives, rather than extracting a pattern now or adopting the tool immediately.
+
+**Collection:** `20_LIBRARY`
+
+**Tags:**
+
+```text
+source/github, type/guide, type/docs, domain/devtools, authority/source-code, truth/verified, status/reference, fit/vscode, fit/ai-assisted, next/revisit, scenario/learning
+```
+
+**Note:**
+
+```text
+Cataloged: YYYY-MM-DD
+Verdict: keep as reference for future implementation.
+Next: retrieve when implementing a similar workflow.
+Claim: explains a workflow or technical pattern.
+Evidence: docs and examples are clear and reproducible.
+Authority: source-code/docs.
+Truth: verified.
+StackFit: usable with editor and AI assistance.
+```
+
+**Why these classifications are correct:**
+
+`truth/verified` is appropriate because the evidence is the docs and examples themselves — they are directly readable and reproducible, not dependent on third-party reports or trust in vendor claims. `status/reference` is correct because the item has real value but no immediate action is required; it sits in `20_LIBRARY` ready to be retrieved. The `fit/vscode` and `fit/ai-assisted` tags narrow the fit context precisely so the operator knows what setup this requires. Using two `type/` tags (`type/guide` and `type/docs`) is correct here because the resource is both a narrative guide and structured reference documentation.
+
+</Accordion>
+
+<Accordion title="Example 3 — Product, Service, or API Directory">
+
+This example covers a curated list or directory of services, APIs, or tools rather than a single tool or guide. Directories require a split truth judgment: the directory itself can be `truth/plausible` (it is a real, maintained, curated list with community traction), but individual entries within the directory are `truth/unknown` until each one is independently evaluated. This distinction must appear in the note.
+
+`fit/discovery-only` is the correct fit tag because the operator cannot adopt the directory itself — they can only use it to find candidates that then require their own evaluation pass.
+
+**Collection:** `20_LIBRARY`
+
+**Tags:**
+
+```text
+source/github, type/directory, domain/automation, authority/vendor-claim, authority/community, truth/plausible, status/reference, fit/discovery-only, fit/account-required, fit/paywall-risk, risk/vendor-bias, next/extract
+```
+
+**Note:**
+
+```text
+Cataloged: YYYY-MM-DD
+Verdict: useful for capability discovery, not direct adoption.
+Next: extract candidates only when a workflow requires them.
+Claim: directory of services or APIs for workflow capabilities.
+Evidence: large curated list and traction, but individual services are not verified.
+Authority: vendor-claim plus community signal.
+Truth: plausible as directory, unknown for individual entries.
+StackFit: discovery-only; every candidate must be checked for real free tier, no-card use, setup friction, and current community reports.
+```
+
+**Why `fit/discovery-only` is used and why `truth/plausible` applies to the directory but `truth/unknown` to individual entries:**
+
+`fit/discovery-only` is correct because a directory has no standalone operational value — it is a map, not a destination. Every service it lists must be evaluated on its own before it earns a fit classification. Assigning any stronger fit tag to the directory itself would misrepresent what the operator can actually do with it today.
+
+The split truth classification reflects a real epistemic distinction. The directory's existence, maintenance, and community traction are observable facts — that earns `truth/plausible` for the directory as a whole. But whether any individual service in the list has a real free tier, works without a credit card, has acceptable setup friction, and is currently maintained is unknown until checked. Recording `truth/plausible as directory, unknown for individual entries` in the note prevents a future operator from mistakenly treating the directory's curation as a quality endorsement for any specific service within it.
+
+</Accordion>

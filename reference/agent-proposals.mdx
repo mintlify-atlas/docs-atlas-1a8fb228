@@ -1,0 +1,107 @@
+---
+title: "How the AI Assembles and Labels Proposals"
+sidebarTitle: "Proposals"
+description: "Explains how the AI assistant marks confidence levels in every proposal, gathers official and community evidence, and handles ambiguity, conflicts, and access failures."
+---
+
+Proposals are the primary output of the AI assistant in the Decision Rain Library Project. The assistant does not make final decisions — it prepares structured proposals for the operator to evaluate and approve. The quality of a proposal depends on the evidence gathered, the honesty of the certainty labels applied, and the care taken to surface conflicts before recommending any action.
+
+## What the Assistant Proposes
+
+For every entry the assistant processes, it is expected to produce proposals covering all of the following where evidence supports them:
+
+- **Interpretations** — what the entry actually is and what problem it addresses
+- **Classifications** — proposed collection, `type/*`, `domain/*`, `source/*`, and `scenario/*` tags
+- **Tags** — proposed `status/*`, `truth/*`, `authority/*`, `risk/*`, `stack/*`, and `fit/*` tags
+- **Verdict** — a plain-language summary of the assistant's assessment
+- **Next** — a proposed `next/*` action tag
+- **Risks** — adoption risks, billing risks, ecosystem risks, or trust concerns surfaced by evidence
+- **Alternatives** — other entries or tools that serve a similar purpose
+- **Missing evidence** — gaps in what the assistant was able to verify
+- **Taxonomy gaps** — cases where no approved tag fits and a new one should be considered
+
+## Certainty Levels
+
+Every proposal item must be labeled with one of four certainty levels. The assistant must not present inferred conclusions as verified facts, and must not present uncertain assessments as inferred ones.
+
+| Level | Meaning | Example use |
+|---|---|---|
+| **verified** | Confirmed directly from official source material — docs, source code, release notes, or maintainer statements | Pricing confirmed from the official pricing page; feature confirmed from the README |
+| **inferred** | Reasonably concluded from available evidence, but not explicitly stated in a source | StackFit inferred from documented setup steps and dependency list |
+| **uncertain** | Evidence is insufficient, ambiguous, or conflicting — the assistant cannot reach a reliable conclusion | Maintenance status uncertain: last commit is 14 months ago with no archived notice |
+| **operator-decision-required** | The assistant has reached the limit of what analysis can resolve — a judgment call that only the operator can make | Whether to extract the idea or test the tool depends on operator priorities |
+
+<Tip>
+The goal is to make the operator's decision **easier**, not to sound more decisive. A proposal that clearly labels what is verified, what is inferred, and what remains uncertain is more useful than one that presents everything with equal confidence.
+</Tip>
+
+## Evidence Gathering Rules
+
+Before the assistant may produce practical classification or adoption proposals, it must gather current evidence from both official and community sources. These two evidence streams are kept separate because they answer different questions.
+
+**Official evidence** shows intended behavior. It includes:
+
+- Documentation and README files
+- Maintainer notes and changelogs
+- Release notes and versioned specifications
+- Pricing pages and plan descriptions
+- Source code, examples, and tests
+
+**Community evidence** shows real-world friction. It includes:
+
+- GitHub issues and discussions
+- User reports, forums, and developer communities
+- Hacker News and Reddit threads when relevant
+- Adoption signals and ecosystem activity
+- Breakage reports, pricing complaints, and setup friction reports
+
+<Note>
+Official and community evidence must be kept separate in the proposal. A project's documentation may describe a free tier; community evidence may reveal that the free tier requires a credit card or expires after 14 days. Both facts matter, and conflating them obscures the risk.
+</Note>
+
+## Access Failure Protocol
+
+Sometimes the assistant cannot inspect the target well enough to form a reliable proposal. This is not a reason to guess or to pad the proposal with inferences. It is a reason to stop, report the problem clearly, and wait.
+
+<Steps>
+  <Step title="Record what was saved">
+    Report the URL and any metadata that was successfully saved to `00_INBOX`, including any tags already applied.
+  </Step>
+  <Step title="Report available evidence">
+    List the evidence the assistant was able to gather before hitting the access barrier — partial docs, a cached page, a description, or community signals.
+  </Step>
+  <Step title="Report missing evidence">
+    Describe what evidence is needed but could not be obtained — the full README, the pricing page, the source code, or the issue tracker.
+  </Step>
+  <Step title="Identify the tool or access problem">
+    Name the specific barrier: a paywall, a login requirement, a dead link, a rate limit, a tool failure, or an access restriction.
+  </Step>
+  <Step title="State the minimum unblock step">
+    Describe the smallest action the operator can take to unblock the research — sharing a direct link, providing credentials, or confirming that a cached version is acceptable.
+  </Step>
+</Steps>
+
+## Ambiguity and Conflict Handling
+
+Not all ambiguity requires the assistant to stop. The rule depends on whether the ambiguity changes the outcome.
+
+**Stop and ask the operator** when ambiguity or conflicting evidence would change any of the following:
+
+- Collection placement
+- `status/*` tag
+- `truth/*` tag
+- StackFit assessment
+- `next/*` action
+- Adoption recommendation
+- Extraction vs. rejection decision
+- Promotion out of `00_INBOX`
+
+**Surface the conflict before proposing** whenever evidence from official and community sources contradicts each other. Community evidence can raise risk and justify a lower StackFit or a `risk/*` tag, but it does not automatically override official evidence unless the community signal is material, repeated, and directly relevant to the operator's use case.
+
+**Proceed with recorded uncertainty** only when the ambiguity does not change the decision — and only if the uncertainty is clearly noted in the proposal rather than silently discarded.
+
+<Warning>
+**The assistant must not classify, promote, archive, or write a full decision note from insufficient evidence.**
+
+It must not infer missing substance from the entry's title, URL, star count, popularity signals, marketing copy, model memory, or the behavior of similar projects. An entry that cannot be adequately researched must be marked with explicit gaps — not filled in with plausible-sounding estimates.
+</Warning>

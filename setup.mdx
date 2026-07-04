@@ -1,0 +1,75 @@
+---
+title: "Set Up Your Decision Rain Library in Raindrop"
+sidebarTitle: "Setup"
+description: "How to create the collection structure in Raindrop, load the governance documents, connect ChatGPT, and send your first link through the review loop."
+---
+
+Setting up the Decision Rain Library takes five steps: create the collections, load the governance documents, connect your AI assistant, configure the connector description, and test the loop with a single link. The whole process can be completed in one session. Nothing here requires a paid Raindrop tier beyond whatever is needed to support the ChatGPT connector your account allows.
+
+<Steps>
+  <Step title="Create the collection structure in Raindrop">
+    In Raindrop, create a parent collection named exactly `Decision Rain Library Project`. Inside it, create five sub-collections in this order:
+
+    ```text
+    Decision Rain Library Project
+      00_SYSTEM
+      00_INBOX
+      10_REVIEW
+      20_LIBRARY
+      90_ARCHIVE
+    ```
+
+    The naming is intentional. The numeric prefixes keep the collections sorted in the order they are used. `00_SYSTEM` and `00_INBOX` sort together at the top because both need to be visible at a glance. Do not rename these collections or merge them — each one represents a distinct lifecycle state, not a topic.
+  </Step>
+  <Step title="Add the governance documents to 00_SYSTEM">
+    The `docs/` folder in the project repository contains the governance documents that define how the assistant should behave. Each document needs to be saved as a bookmark entry inside `00_SYSTEM` in Raindrop, with the full document content pasted into the bookmark's excerpt or note field.
+
+    Because Raindrop requires every bookmark to have a URL, use stable placeholder URLs for these SYSTEM entries. The content of the excerpt is the source of truth — not the URL. Use the pattern from `templates/system-bookmark-links.md`:
+
+    ```text
+    https://example.com/rdl-agent-contract
+    https://example.com/rdl-system-spec
+    https://example.com/rdl-tag-registry
+    https://example.com/rdl-decision-rules
+    https://example.com/rdl-note-template
+    https://example.com/rdl-examples-golden
+    https://example.com/rdl-usage-flow
+    ```
+
+    Each placeholder URL maps to one governance document. Paste the full text of the corresponding `docs/` file into the Raindrop excerpt for that bookmark. If the assistant later opens a placeholder URL and cannot read the excerpt, it must stop and ask for access to the SYSTEM content — it should not reconstruct rules from memory.
+  </Step>
+  <Step title="Connect Raindrop to ChatGPT">
+    If your ChatGPT account supports remote MCP or custom connectors, add Raindrop as a connected service. The exact screens and options for doing this may change as ChatGPT updates its interface. Treat this step as a direction: find the connector or integration settings in ChatGPT, locate the Raindrop option, and authorize the connection.
+
+    Once connected, the assistant will be able to read from and write to your Raindrop collections directly during a conversation.
+  </Step>
+  <Step title="Add the connector description">
+    If your connector setup allows a custom description or instruction field for the Raindrop connection, add the following text exactly as written. This bootstraps the assistant with the minimum context it needs before reading the full SYSTEM documents.
+
+    ```text
+    Use Raindrop as a Decision Library backend, not as generic bookmarks.
+    New links should first be saved to 00_INBOX.
+    Before reviewing or moving links, read 00_SYSTEM.
+    ChatGPT may inspect and propose, but the user decides final placement, tags, and next steps.
+    ```
+
+    Keep this description short. The canonical rules live in `00_SYSTEM` so they can be versioned, corrected, and inspected. The connector description is only a bootstrap prompt — it is not a substitute for the full governance documents.
+  </Step>
+  <Step title="Send your first link">
+    Start with a single link you are genuinely curious about — a GitHub repository, a tool you have been meaning to evaluate, or a documentation page you saved recently. Send it to ChatGPT and ask it to save the link, inspect it, and propose a review.
+
+    Watch what the assistant does: it should save to `00_INBOX` first, gather evidence, write a review in the standard note shape, propose tags and a collection, and then wait for your approval before moving anything. If it skips the inbox or promotes the entry directly to `20_LIBRARY` without asking, correct it and refer it to `00_AGENT_CONTRACT` in `00_SYSTEM`.
+  </Step>
+</Steps>
+
+<Warning>
+  Before the assistant classifies, updates, or promotes any serious entries, it must read the SYSTEM documents from Raindrop in a specific order. `00_AGENT_CONTRACT` must be read first because it defines authority boundaries and stop conditions. After that, read entries `01` through `05` in order: `01_SYSTEM_SPEC`, `02_TAG_REGISTRY`, `03_DECISION_RULES`, `04_NOTE_TEMPLATE`, and `05_EXAMPLES_GOLDEN`. If the assistant cannot read these documents from Raindrop, it must stop and report the access failure. It must not reconstruct rules from memory, README fragments, connector descriptions, or prior context.
+</Warning>
+
+## Customizing the system
+
+Once the basic setup is working, the project is designed to be adapted. The main things to customize for your own use are your fit tags (what tools, accounts, devices, and setup friction are relevant to you), your domain tags (automation, writing, design, research, hardware, and so on), your item types, your priority markers, and your personal threshold for calling something verified or ready to test.
+
+<Info>
+  The template is not meant to be universal out of the box. The golden examples in `05_EXAMPLES_GOLDEN` show one operator's decisions. Replace or extend them with examples from your own reviews so the assistant learns what good looks like for your context.
+</Info>

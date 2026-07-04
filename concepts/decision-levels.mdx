@@ -1,0 +1,64 @@
+---
+title: "Signal, Analysis, and Decision: Three Distinct Levels"
+sidebarTitle: "Decision Levels"
+description: "Understand why signal, analysis, and decision must stay separate and what the operator gate requires before any entry is treated as a canonical record."
+---
+
+The Decision Rain Library Project enforces a strict separation between three levels of processing: signal, analysis, and decision. These levels are distinct because they involve different actors, different kinds of evidence, and different degrees of commitment. Collapsing them — treating a saved link as a decision, or treating a polished AI proposal as operator approval — is one of the most common failure modes in any curation system. The rules here exist to prevent that collapse.
+
+## The Three Levels
+
+| Level | Who / What | What Happens | Can Be Skipped? |
+|---|---|---|---|
+| **Signal** | The environment; the operator's attention | A link, tool, article, repository, or idea is noticed and saved to `00_INBOX`. No judgment is made. | No — every item enters the system as a signal first. |
+| **Analysis** | The assistant | The assistant inspects the target, fills the note template, surfaces evidence and gaps, and proposes a classification. | No — promotion to `20_LIBRARY` requires a completed analysis. |
+| **Decision** | The operator | The operator reviews the proposal, validates or corrects it, and explicitly confirms final placement, tags, and status. | No — nothing enters `20_LIBRARY` or `90_ARCHIVE` without an explicit operator act. |
+
+### Signal
+
+A signal is anything that caught attention — a GitHub repository, a documentation page, a product, a guide, a pattern, a research project, a workflow idea, or a small spark that might become useful later. The library does not require the operator to know why the signal matters at capture time. The point is to preserve the trace so it can be turned into a decision later. A signal is saved, not judged.
+
+### Analysis
+
+Analysis is the assistant's work: inspecting the target with available tools, filling the note template with source, claims, evidence, verdict, and uncertainty, and proposing a complete tag set. Analysis explains what the item is, what evidence exists, and what is missing. A clean, well-structured analysis proposal is still only a proposal. It is not validation. The quality of the analysis does not determine the outcome — the operator does.
+
+### Decision
+
+A decision is the operator's explicit act of validation. The operator reviews the analysis, confirms or corrects the proposed tags and collection, and approves final placement. Until that act happens, no entry is canonical, regardless of how complete or confident the analysis looks.
+
+## Why Collapsing These Levels Is Harmful
+
+When signal, analysis, and decision are treated as one continuous act, the system loses its ability to distinguish between "we noticed this" and "we decided this." Entries accumulate in `20_LIBRARY` that no one actually validated. Tags reflect AI confidence rather than operator judgment. The library becomes a record of what the assistant thought, not what the operator decided.
+
+Three specific collapses happen most often and must be actively prevented:
+
+- **Saving a link is not a decision.** The URL is in the system. That is all. No classification has been made, no judgment has been validated, no commitment has been recorded.
+- **Analysis is not validation.** The assistant has described the item and proposed a path. The operator has not agreed to that path.
+- **A clean-looking proposal is not validation.** Formatting, completeness, and confidence are properties of the proposal. They do not substitute for the operator's explicit review.
+
+<Warning>
+Silence is not approval. If the operator has not responded to a proposal, the entry stays pending — the assistant must not interpret inactivity as confirmation and proceed with promotion. Prior similar approval is not approval for this entry. Confidence in the analysis is not approval. Only an explicit operator act counts.
+</Warning>
+
+## The Operator Gate
+
+The following actions require explicit operator approval before the assistant may proceed. The assistant must surface the proposal, wait for a response, and act only after receiving it.
+
+- **Final collection placement** — which of the five collections the entry belongs in
+- **Final `status/*` tag** — the confirmed operational status
+- **Final `truth/*` tag** — the confirmed evidence quality level
+- **Final StackFit judgment** — the `fit/*` tag when adoption is a live question
+- **Final `next/*` tag** — the confirmed next action
+- **Promotion from `00_INBOX` to `10_REVIEW`** — moving an entry into structured review
+- **Promotion from `10_REVIEW` to `20_LIBRARY`** — confirming an entry as a validated decision
+- **Archive placement** — moving an entry to `90_ARCHIVE` as rejected, outdated, or closed
+- **Changes to `00_SYSTEM` documents** — any modification to governance, rules, or taxonomy
+- **Taxonomy changes** — adding, removing, or renaming tags in the approved tag taxonomy
+- **Batch normalization** — retroactive updates to multiple entries at once
+- **Overwriting existing notes** — replacing a confirmed note in an already-validated entry
+
+If operator approval is missing for any of the above, the assistant keeps the entry at its current status and asks. It does not infer approval, it does not proceed on the basis of prior conversations, and it does not treat a confident analysis as a substitute for the operator's explicit response.
+
+<Note>
+The operator gate is not a friction mechanism — it is what makes the library a record of decisions rather than a record of AI opinions. Every entry that passes through the gate carries the operator's explicit judgment. Every entry that has not passed through the gate is still a proposal.
+</Note>

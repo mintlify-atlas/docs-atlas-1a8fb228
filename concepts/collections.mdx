@@ -1,0 +1,62 @@
+---
+title: "Collection Structure and Roles in Decision Rain Library"
+sidebarTitle: "Collections"
+description: "Five Raindrop collections in Decision Rain Library Project organize links from raw signal capture to operator-validated decisions and archive."
+---
+
+The Decision Rain Library Project uses five named collections inside a single Raindrop parent called **Decision Rain Library Project**. Each collection has a fixed role in the processing pipeline. Nothing moves between collections arbitrarily — placement reflects where an entry is in the journey from raw signal to validated decision. The numbered prefixes are intentional: they control the visual sort order in Raindrop and make the processing sequence visible at a glance.
+
+## Collection Layout
+
+The complete structure lives under one parent collection in Raindrop:
+
+```text
+Decision Rain Library Project
+  00_SYSTEM
+  00_INBOX
+  10_REVIEW
+  20_LIBRARY
+  90_ARCHIVE
+```
+
+The two `00_` prefixes keep `SYSTEM` and `INBOX` pinned to the top. `10_REVIEW` sits next, followed by `20_LIBRARY`, and finally `90_ARCHIVE` at the bottom. This order mirrors how entries actually move through the system.
+
+## Collection Roles
+
+Each collection accepts a specific kind of entry at a specific stage of processing. The table below summarizes what belongs where.
+
+| Collection | Stage | What It Contains |
+|---|---|---|
+| `00_SYSTEM` | Governance | Canonical rules, taxonomy documents, agent contracts, and governance entries. Not a place for bookmarked links. |
+| `00_INBOX` | Capture | Every new link, without exception, before any evaluation or tagging beyond `status/pending-review` and one `next/*` tag. |
+| `10_REVIEW` | Analysis | Links worth deeper analysis before becoming decisions. The assistant fills the note template and proposes tags here; the operator validates before promotion. |
+| `20_LIBRARY` | Decision | Evaluated, operator-validated decision entries only. Every entry here has passed explicit human review. |
+| `90_ARCHIVE` | Retirement | Entries that are rejected, outdated, duplicated, inactive, or kept only as historical evidence. |
+
+### `00_SYSTEM`
+
+This collection holds the documents that define how the system runs — spec files, decision rules, taxonomy lists, and the agent contract. Governance entries stay here so they are never confused with bookmarked content under evaluation. If a rule changes, the change is made here first.
+
+### `00_INBOX`
+
+Every new link enters here. The operator or the assistant saves the URL immediately, attaches `status/pending-review` and one `next/*` tag, and nothing more. The entry is a trace preservation record at this stage, not a decision. Examples of what lands here: a GitHub repository URL spotted in a forum thread, a product page shared in a chat, a documentation link saved mid-research.
+
+### `10_REVIEW`
+
+Entries move here when they are worth structured analysis but have not yet received operator validation. The assistant reads the target, fills the full note template, proposes a tag set, and surfaces uncertainty. The operator then reviews the proposal. Examples: a tool that looks relevant but needs a closer read of its pricing and maintenance status; an article whose claims require corroboration before the entry can be marked `truth/verified`.
+
+### `20_LIBRARY`
+
+This collection holds decisions — not links, not proposals. Every entry here has been explicitly validated by the operator. The required fields (`status/*`, `type/*`, `domain/*`, `truth/*`, `fit/*` when adoption is relevant, `next/*`, and a `Cataloged` date) are all present and confirmed. Examples: a library marked `status/ready` after a working integration test; a guide marked `status/reference` because it serves as reliable documentation for a pattern the team uses.
+
+### `90_ARCHIVE`
+
+Entries that have completed their useful life move here. This covers: links that were evaluated and rejected (`status/rejected`), entries whose information is now stale (`truth/outdated`), duplicates of existing library entries, tools that have gone inactive, and historical records kept as evidence even though the operator would not act on them today.
+
+<Warning>
+Never skip `00_INBOX`. Every new link — regardless of how obvious its final destination seems — must enter through `00_INBOX` first. Do not save a fully evaluated entry directly to `20_LIBRARY` without operator validation. Bypassing either rule breaks the trace and introduces unvalidated entries into the decision record.
+</Warning>
+
+## How Numbered Prefixes Work
+
+The numeric prefixes are not decoration. Raindrop sorts collections alphabetically by default, so `00_` collections appear before `10_`, which appears before `20_`, which appears before `90_`. This means the visual order in the Raindrop sidebar always matches the logical processing order: capture → review → library → archive. When you open the sidebar, you can read the pipeline from top to bottom without any mental reordering.

@@ -1,0 +1,77 @@
+---
+title: "Agent Contract: AI Authority and Operator Gates"
+sidebarTitle: "Agent Contract"
+description: "Defines the strict behavioral contract governing every AI assistant action in the Decision Rain Library Project, including authority limits and required operator gates."
+---
+
+The Agent Contract is the foundational governance document for the Decision Rain Library Project. It establishes exactly what the AI assistant is permitted to do, what it is forbidden from doing, and when it must stop and wait for the operator before taking any further action. Everything in the system flows from this contract.
+
+## Core Authority Principle
+
+The operator is the **only** validation authority in the Decision Rain Library Project. No decision becomes canonical until the operator explicitly approves it.
+
+The assistant exists to prepare, surface, and refine proposals — not to make final judgments. Thorough research and confident analysis do not grant the assistant any additional authority to act.
+
+## What the AI May and May Not Do
+
+| | AI MAY | AI MAY NOT |
+|---|---|---|
+| **Links** | Preserve original links, save to `00_INBOX` | Move, promote, or archive without operator approval |
+| **Research** | Inspect, research, and gather official and community evidence | Infer substance from title, URL, stars, or marketing copy |
+| **Analysis** | Analyze, compare, and surface conflicts or ambiguities | Treat analysis as a validated decision |
+| **Proposals** | Propose tags, classifications, StackFit, Verdict, Next, and taxonomy gaps | Apply any proposal as final without explicit operator approval |
+| **Taxonomy** | Report tag gaps and propose the smallest new tag | Create new tag families, values, or synonyms |
+| **SYSTEM** | Read and apply approved SYSTEM documents in order | Change SYSTEM documents without operator approval |
+| **Normalization** | Define a plan and sample for review | Execute batch normalization without explicit operator approval |
+
+## Default Flow When a Link is Provided
+
+When the operator provides a link, the assistant follows this exact sequence every time — with no exceptions.
+
+<Steps>
+  <Step title="Save to 00_INBOX">
+    The assistant saves the original link to `00_INBOX` with `status/pending-review` and one `next/*` tag. This step preserves the trace of the entry's arrival. It is **not** a decision and does not validate anything about the link.
+  </Step>
+  <Step title="Research immediately">
+    The assistant immediately researches the link using all relevant available tools. It gathers both official evidence (docs, README, maintainer notes, release notes, pricing, source, examples, tests) and community evidence (issues, discussions, user reports, forums, HN/Reddit when relevant, adoption signals, breakage reports, pricing and setup complaints). Official and community evidence are kept separate.
+  </Step>
+  <Step title="Prepare a proposal">
+    The assistant assembles a full proposal: tags, collection placement, StackFit, Verdict, Next action, risks, alternatives, missing evidence, and taxonomy gaps. Every proposal item is labeled with a certainty level — verified, inferred, uncertain, or operator-decision-required.
+  </Step>
+  <Step title="Wait for the operator">
+    The assistant presents the proposal and waits. It does not move the entry, promote it, archive it, or rewrite any existing decision note until the operator explicitly approves.
+  </Step>
+</Steps>
+
+## Operator Gate
+
+Every item below requires **explicit operator approval** before the assistant may act. The operator must state approval clearly — the assistant does not infer approval from context, silence, or prior decisions.
+
+- [ ] Final collection placement
+- [ ] Final `status/*` tag
+- [ ] Final `truth/*` tag
+- [ ] Final StackFit
+- [ ] Final `next/*` tag
+- [ ] Promotion out of `00_INBOX`
+- [ ] `20_LIBRARY` placement
+- [ ] Archive (move to `90_ARCHIVE`)
+- [ ] Any SYSTEM document change
+- [ ] Any taxonomy change (new families, values, or synonyms)
+- [ ] Batch normalization
+- [ ] Overwriting existing decision notes
+
+<Warning>
+**Silence is not approval. Prior similar approval is not approval. Confidence is not approval.**
+
+If the operator does not explicitly approve a gated action, the assistant keeps the entry pending and asks. A decision made in a previous session does not authorize the same action in a new context. High confidence in a proposal does not grant permission to execute it.
+</Warning>
+
+## Reading Order for SYSTEM Documents
+
+The assistant reads `00_AGENT_CONTRACT` first, then SYSTEM documents (`01` through `05`) in order, before classifying or updating any serious entry. This order is mandatory, not advisory.
+
+<Note>
+SYSTEM documents are governance documents — they define the rules of the library. They are not ordinary bookmarks and must never be treated as entries to classify, promote, or archive.
+</Note>
+
+If two SYSTEM documents contain rules that conflict with each other, the assistant stops immediately and reports the conflict to the operator. It does not attempt to resolve the conflict by normalizing against whichever rule seems more complete, more recent, or more consistent with the assistant's own judgment. It waits for the operator to resolve the conflict before proceeding.

@@ -1,0 +1,172 @@
+---
+title: "Tag Registry: All Families and Allowed Values"
+sidebarTitle: "Tag Registry"
+description: "The complete controlled tag taxonomy for the Decision Rain Library Project: all twelve families, every allowed value, governance rules, and StackFit fit tags."
+---
+
+Every entry in the Decision Rain Library Project is described using a controlled tag grammar. Tags are organized into named families, and only approved values within those families are allowed. This registry is the single authoritative reference for all tag families and their allowed values. No new families or values may be introduced without explicit operator approval.
+
+## Governance
+
+The taxonomy exists to make library entries interrogable — queryable by confidence, operational decision, adoption cost, and evidence quality. Emotional or convenience tags such as `cool`, `interesting`, `maybe`, `good`, `AI`, or `tool` are never allowed. Every tag must carry a specific, answerable meaning. If no existing tag fits a situation, report the gap and propose the smallest possible addition; do not use an unapproved tag while waiting.
+
+## Signal and Classification Families
+
+These families describe what you know about an entry: who supports the claim, how confident you are, and what kind of object it is.
+
+### `authority/*` — Who or What Supports the Claim
+
+| Value | Meaning |
+|---|---|
+| `authority/official` | Official docs, maintainer statement, or product page |
+| `authority/source-code` | Code, examples, tests, or commits |
+| `authority/community` | Issues, discussions, Reddit, HN, or other forum signals |
+| `authority/vendor-claim` | Marketing, README promise, sales copy, or unverified claim |
+| `authority/internal` | Internal rule, operator context, or validated local judgment |
+
+### `truth/*` — Confidence or State of Truth
+
+| Value | Meaning |
+|---|---|
+| `truth/verified` | Confirmed by primary evidence, a working test, or strong corroboration |
+| `truth/plausible` | Likely true but not tested enough to confirm |
+| `truth/claimed` | Asserted but not verified |
+| `truth/conflicting` | Credible sources disagree |
+| `truth/outdated` | Likely stale or obsolete |
+| `truth/unknown` | Not enough evidence to make any judgment |
+
+### `type/*` — What Kind of Object This Is
+
+The `type/*` family describes the nature of the artifact, not where it came from or whether it fits the operator's environment.
+
+| Example Values |
+|---|
+| `type/repo` |
+| `type/guide` |
+| `type/paper` |
+| `type/service` |
+| `type/directory` |
+| `type/pattern` |
+| `type/tutorial` |
+| `type/idea` |
+| `type/framework` |
+| `type/docs` |
+
+### `source/*` — Where It Comes From
+
+The `source/*` family records origin, not adoption cost or practical fit. GitHub is a source; it is not a fit judgment. A GitHub item may be code, docs, a guide, a pattern, a directory, research, an idea, an example, or a spark.
+
+| Example Values |
+|---|
+| `source/github` |
+
+### `domain/*` — Topic or Domain
+
+| Example Values |
+|---|
+| `domain/automation` |
+| `domain/writing` |
+| `domain/design` |
+| `domain/hardware` |
+| `domain/research` |
+| `domain/productivity` |
+
+### `scenario/*` — Usage Scenario
+
+| Example Values |
+|---|
+| `scenario/learning` |
+| `scenario/power-user` |
+
+### `stack/*` — Relevant Technology Stack
+
+| Example Values |
+|---|
+| `stack/kotlin` |
+
+---
+
+## Operational Decision Families
+
+These families record what the operator has decided to do with an entry.
+
+### `status/*` — Operational Decision
+
+| Value | Meaning |
+|---|---|
+| `status/dissect` | Deserves close analysis now |
+| `status/ready` | Usable or applicable with low ambiguity and acceptable StackFit |
+| `status/later` | Useful but not the current priority |
+| `status/core-good` | Core idea is valuable even if implementation or StackFit is not practical |
+| `status/watch` | Monitor maturity, pricing, maintenance, ecosystem, or access constraints |
+| `status/rejected` | Evaluated and not worth using except as historical evidence |
+| `status/reference` | Useful mainly as reference, documentation, directory, or learning material |
+| `status/pending-review` | Assistant has processed this entry but the operator has not yet validated it |
+
+`status/pending-review` is the default state after assistant analysis. No entry becomes canonical until the operator confirms.
+
+### `next/*` — Next Concrete Action
+
+Always add one `next/*` tag per evaluated entry. Choose the most specific action that describes what should happen next.
+
+| Value | Meaning |
+|---|---|
+| `next/test` | Try it in the operator environment now |
+| `next/spike` | Timeboxed exploration with unknown outcome |
+| `next/extract` | Pull the pattern or idea; do not adopt the tool itself |
+| `next/revisit` | Park with intent to return — not passive archiving |
+| `next/archive` | Move to `90_ARCHIVE`; evaluation is complete |
+| `next/deploy` | Ready to integrate into active workflow |
+
+### `priority/*` — Optional Operator Attention Marker
+
+| Value | Meaning |
+|---|---|
+| `priority/high` | Operator attention marker for items that should stay visible |
+
+<Warning>
+`priority/high` does **not** mean ready, validated, urgent, or objectively more important than other entries. It does not replace `status/*` or `next/*`. Do not invent additional priority scale values unless the operator explicitly approves them.
+</Warning>
+
+---
+
+## Risk and Friction Families
+
+These families surface adoption risk, trust risk, and practical compatibility with the operator's real environment.
+
+### `risk/*` — Adoption or Trust Risk
+
+| Example Values |
+|---|
+| `risk/ecosystem-mismatch` |
+| `risk/vendor-bias` |
+| `risk/overpromised` |
+
+### `fit/*` — Practical Compatibility
+
+The `fit/*` family describes how realistically the operator can get value from an item given their actual operating environment and adoption threshold. This is a judgment call — it is not a list of tools the operator uses. See [StackFit](/reference/stackfit) for the full evaluation model.
+
+| Value | What It Signals |
+|---|---|
+| `fit/windows` | Relevant for or tested on Windows |
+| `fit/vscode` | Relevant for or works with VS Code |
+| `fit/ai-assisted` | Setup or use is viable with AI assistance |
+| `fit/llm-chat` | Usable via an LLM chat interface |
+| `fit/pipedream` | Integrates with or relevant to Pipedream |
+| `fit/automation-layer` | Fits into an automation layer workflow |
+| `fit/mcp` | Relevant to the Model Context Protocol |
+| `fit/local` | Runs locally without external service dependency |
+| `fit/free-tier-real` | A genuine, functional free tier exists |
+| `fit/no-card` | No payment card required to start |
+| `fit/account-required` | An account is required to proceed |
+| `fit/paywall-risk` | A paywall may block practical use |
+| `fit/freemium-risk` | Free tier may be too limited for real use |
+| `fit/dev-heavy` | Requires significant developer effort to get value |
+| `fit/discovery-only` | Useful for discovering other items; not directly adoptable |
+| `fit/owned-hardware` | Requires or relates to operator-owned hardware |
+
+<Info>
+Tool-specific fit tags may be added only when the operator needs that level of precision. Prefer generic fit tags for public or shared templates.
+
+Do not use `fit/raindrop` or `fit/browser` by default. Raindrop is the library backend, not a fit tag. Browser is a generic access surface, not a fit tag.
+</Info>

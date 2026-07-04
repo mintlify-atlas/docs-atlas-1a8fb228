@@ -1,0 +1,73 @@
+---
+title: "Decision Entry Note Format and Field Guide"
+sidebarTitle: "Note Template"
+description: "The eight-field structured note format every evaluated Decision Rain entry must follow, including field definitions, style rules, and operational gates."
+---
+
+Every entry that passes through the Decision Rain review workflow is recorded using a consistent eight-field note. This structure exists to make every bookmark a small, self-contained decision record — not a bookmark title with a vague tag cloud. The format is intentional: the most critical judgment fields appear at the top so the operator can scan a Raindrop excerpt without reading the whole note.
+
+<Info>
+  **Anti-truncation rule:** Raindrop may truncate long excerpts in its list and card views. `Verdict` and `Next` must always appear within the first three lines of the note. Critical fields must never be buried at the bottom where they may be cut off before the operator sees them.
+</Info>
+
+## The Eight-Field Template
+
+The compact template below is used for every seriously evaluated entry. All eight fields are required. Copy this block into the Raindrop bookmark excerpt and fill in each field.
+
+```text
+Cataloged: YYYY-MM-DD
+Verdict: practical judgment in one or two sentences.
+Next: next action, such as use now, test, extract pattern, watch, reference only, archive.
+Claim: what the link appears to provide or prove.
+Evidence: what supports the claim, such as README, source code, docs, issues, tests, release activity, community use, pricing, setup reports, or hands-on test.
+Authority: what kind of authority supports it; keep official and community evidence separate when both matter.
+Truth: verified, plausible, claimed, conflicting, outdated, or unknown.
+StackFit: practical judgment of how realistically the operator can get value from the item. Consider value type, operator capability, adoption cost, friction threshold, and decision path. Mention whether the item is for direct use, test, assisted implementation, workflow integration, idea extraction, reference, discovery, watch, or archive.
+```
+
+## Field Reference
+
+Each field serves a specific decision-making function. Filling them out mechanically without thinking through each one defeats the purpose of the format.
+
+**Cataloged** records the date the entry was evaluated in `YYYY-MM-DD` format. It establishes a timestamp for drift detection — a note that is two years old and has never been revisited may need a truth re-check.
+
+**Verdict** is the one- or two-sentence practical judgment the operator should remember. It should state whether the item is ready to use, worth watching, useful for ideas only, or something to skip. Write it as if speaking directly to a colleague who asked "should I use this?"
+
+**Next** defines the explicit action to take with this entry. Accepted values are: `use now`, `test`, `extract pattern`, `watch`, `reference only`, and `archive`. Choosing a Next action prevents the entry from becoming an undifferentiated pile of saved links.
+
+**Claim** states what the source itself asserts or appears to offer. This is the link's own pitch, not the reviewer's judgment. Write what the tool, framework, guide, or service says it does.
+
+**Evidence** records what was actually checked to evaluate the claim. Acceptable sources include: README, source code, docs, issues, tests, release activity, community use, pricing, setup reports, and hands-on testing. Listing evidence makes the note auditable — a future re-check can target the same sources.
+
+**Authority** classifies the kind of support behind the claim. When both official and community evidence exist and they point in different directions, keep them separate in the field rather than blending them into a single label.
+
+**Truth** is the reviewer's verdict on how well the evidence supports the claim. Use one of these six values: `verified`, `plausible`, `claimed`, `conflicting`, `outdated`, or `unknown`. Do not invent a seventh value.
+
+**StackFit** is the most operator-specific field. It asks: given this operator's actual capability, setup tolerance, and workflow context, is there realistic value here? Consider the value type (direct use vs. idea extraction), the operator's ability to implement, the adoption cost, the friction threshold, and what decision path the item feeds. StackFit is not a general quality score — it is a fit score for this operator in this context.
+
+## Style Rule
+
+Notes should be concise and decision-oriented. Write for the operator who will scan this in thirty seconds, not for a technical audience reading a proposal document. Do not write essays. If a deep dive is explicitly requested, the format can expand — but the eight fields should still anchor every deep-dive note.
+
+## Operational Rule
+
+If `StackFit` is poor, the status tag must reflect that honestly. Do not assign `status/ready` to an item with bad fit. Use one of the honest status values instead: `core-good`, `watch`, `later`, `reference`, or `rejected`. A good idea with the wrong stack or too much friction is not a ready item.
+
+<Warning>
+  **Gate rule:** Every note produced by the assistant is a **proposal**, not a final record. The note does not graduate to the `20_LIBRARY` collection until the operator explicitly validates it. The assistant may draft notes and suggest placements, but the operator makes the final call on every entry.
+</Warning>
+
+## Filled-In Example
+
+The following example shows the template applied to a real evaluated entry — a curated API and service directory. Notice that `Verdict` and `Next` appear in lines one and two so they are visible in a truncated excerpt.
+
+```text
+Cataloged: YYYY-MM-DD
+Verdict: useful for capability discovery, not direct adoption.
+Next: extract candidates only when a concrete workflow needs them.
+Claim: a curated directory lists APIs and services for automation workflows.
+Evidence: README and repository metadata show a large maintained catalog, but individual services are not verified.
+Authority: vendor-claim plus community signal.
+Truth: plausible as a directory, unknown for individual services.
+StackFit: discovery-only; each candidate must be evaluated for free tier, setup friction, billing risk, and actual operator use case.
+```

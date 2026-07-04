@@ -1,0 +1,89 @@
+---
+title: "Batch Normalization: Rules and Approval Process"
+sidebarTitle: "Normalization"
+description: "Covers the strict process for batch-normalizing library entries, including required operator approval, pre-normalization planning, preservation rules, and post-normalization reporting."
+---
+
+Normalization in the Decision Rain Library Project means updating multiple entries to conform to the current taxonomy or note format — for example, after the tag registry is extended, a note template is revised, or a collection structure changes. Because normalization touches many entries at once, it carries a higher risk of silently overwriting decisions or destroying historical context. Every normalization run is therefore subject to strict rules before, during, and after the work.
+
+## The Core Rule
+
+**Normalization always requires explicit operator approval.**
+
+The assistant does not perform batch updates as part of routine processing, cleanup, or housekeeping. It does not initiate normalization on its own judgment that entries look inconsistent. It proposes, plans, and waits.
+
+<Warning>
+**Silently rewriting decisions is prohibited. Converting pending or review entries into validated library entries is prohibited.**
+
+Normalization updates format and taxonomy — it does not promote entries, change their validated status, or resolve open operator decisions. If a batch update would change a decision rather than a format, that change requires its own explicit approval, separate from the normalization approval.
+</Warning>
+
+## Pre-Normalization Planning
+
+Before any batch work begins, the assistant must read all SYSTEM documents in order and define a complete normalization plan for the operator to review. The operator approves or adjusts the plan before a single entry is changed.
+
+<Steps>
+  <Step title="Identify target collections">
+    List every collection that the normalization run will touch. Be specific — do not describe the scope as "most entries" or "entries that need it." Name the collections explicitly: `00_INBOX`, `10_REVIEW`, `20_LIBRARY`, `90_ARCHIVE`, or `00_SYSTEM`.
+  </Step>
+  <Step title="Define exact fields to change">
+    List every field, tag family, or note section that will be updated. For each field, describe the current state and the intended new state. For example: "Replace `status/in-review` with `status/pending-review` in all `10_REVIEW` entries."
+  </Step>
+  <Step title="Define what stays untouched">
+    State explicitly what will not be changed. This is as important as stating what will change. The operator needs to confirm that the boundary is correct before work begins.
+  </Step>
+  <Step title="Prepare a sample plan for review">
+    Select a representative sample of entries — at least three to five, covering different edge cases — and show the proposed before and after for each one. The operator reviews the sample and confirms that the transformation is correct before the assistant proceeds to the full batch.
+  </Step>
+</Steps>
+
+## What Must Be Preserved
+
+During normalization, the following must never be changed without explicit and specific operator approval. These are not defaults to relax when the operator approves a normalization run in general — each item on this list requires its own approval if it is to be changed.
+
+- **Original URL** — the source link is a permanent record and must not be altered
+- **Title** — unless the operator explicitly approves a title change for a specific entry
+- **Operator context notes** — any note the operator has written explaining why an entry was saved or what decision it represents
+- **Useful evidence text** — research findings, quoted passages, or sourced observations that inform the entry's classification
+- **Historical meaning of the entry** — the record of what the entry was when it was cataloged, even if it is now outdated or superseded
+- **Valid uncertainty that is still accurate** — if an entry was marked uncertain for a reason that has not been resolved, that uncertainty must remain; normalization must not silently convert it into a confident classification
+
+## Post-Normalization Report
+
+After completing a normalization run, the assistant must provide a complete report. This report is the audit trail for the batch operation.
+
+<Accordion title="Post-Normalization Report Format">
+  The report must include the following sections:
+
+  **Entries inspected**
+  The total number of entries the assistant reviewed as part of the run, including entries that were evaluated but not changed.
+
+  **Entries updated**
+  The number of entries that were actually modified, with a breakdown by collection.
+
+  **Collections touched**
+  A list of every collection that contains at least one updated entry.
+
+  **Fields changed**
+  For each type of change made, a description of the before and after state. For example: "Added `status/pending-review` to 12 entries in `00_INBOX` that had no `status/*` tag."
+
+  **Unresolved items**
+  Entries that the assistant identified as needing normalization but could not update — because the correct new value was ambiguous, because the entry had conflicting tags, or because the change would have crossed into a decision rather than a format update.
+
+  **Entries needing operator review**
+  A specific list of entries that the normalization surfaced as requiring operator attention — not because of a normalization error, but because the entry itself has an open question that the operator has not yet resolved.
+</Accordion>
+
+## When Normalization Is Appropriate
+
+Normalization is a rare, explicit, traceable operation — not a routine cleanup. It is appropriate when:
+
+- The tag registry has been updated and existing entries use deprecated tag values
+- The note template has changed and a collection of entries needs to be brought into the new format
+- A collection restructure requires entries to be reclassified under updated collection definitions
+
+It is **not** appropriate as a way to tidy up entries that look inconsistent to the assistant, to retroactively apply decisions that were never validated, or to resolve ambiguities that should have been surfaced to the operator at ingestion time.
+
+<Info>
+When in doubt about whether a proposed update is normalization or a decision, treat it as a decision. The approval threshold for decisions is higher, and that is intentional.
+</Info>

@@ -1,0 +1,107 @@
+---
+title: "Decision Rules: Status, Truth, Authority, Fit"
+sidebarTitle: "Decision Rules"
+description: "The rules governing how Decision Rain Library entries are classified by status, next action, authority level, truth confidence, and practical fit."
+---
+
+Every entry in the Decision Rain Library Project moves through a structured classification process. These rules define exactly what each tag value means and when it applies. Following these rules consistently keeps the library interrogable: you can filter by status, sort by confidence, and trust that every classification was made against the same standard. The operator is always the final validation authority — the assistant proposes, but never validates.
+
+---
+
+## Status Rules
+
+The `status/*` family records the operational decision for an entry: what the library currently says to do with this item. Every entry should carry exactly one `status/*` value.
+
+| Value | Definition |
+|---|---|
+| `status/dissect` | Deserves close analysis now. Something about this entry warrants immediate, careful examination. |
+| `status/ready` | Usable or applicable with low ambiguity and acceptable StackFit. The operator has validated this decision. |
+| `status/later` | Useful but not the current priority. Valid, worth keeping, but not actionable right now. |
+| `status/core-good` | The core idea is valuable even if the implementation or StackFit is not practical. |
+| `status/watch` | Monitor maturity, pricing, maintenance, ecosystem, access constraints, or community friction before deciding. |
+| `status/rejected` | Evaluated and not worth using — kept only as historical evidence. |
+| `status/reference` | Useful mainly as reference, documentation, directory, or learning material — not for direct adoption. |
+| `status/pending-review` | The assistant has processed and saved this entry, but the operator has not yet validated it. Do not treat as canonical until the operator confirms. |
+
+<Warning>
+Never mark `status/ready` unless two conditions are both true: StackFit is acceptable **and** the operator has explicitly validated the decision. `status/pending-review` is the correct state after assistant analysis — it only becomes `status/ready` after the operator confirms.
+</Warning>
+
+<Tip>
+Use `status/core-good` instead of `status/rejected` when the idea, pattern, or design is genuinely valuable but the implementation does not fit the operator's environment. `status/rejected` is reserved for entries that have been fully evaluated and offer no residual value — not even as reference or idea source. If something has extractable value, it is not rejected.
+</Tip>
+
+---
+
+## Next Rules
+
+The `next/*` family records the next concrete action for an entry. Always add exactly one `next/*` tag per evaluated entry. Choose the most specific action that describes what should happen next — do not leave an evaluated entry without a next action.
+
+| Value | Definition and Guidance |
+|---|---|
+| `next/test` | Try it in the operator environment now. Use when the entry looks viable and the operator can directly test it without significant setup. |
+| `next/spike` | Timeboxed exploration with an unknown outcome. Use when evaluation requires hands-on discovery — the right answer is not yet knowable from research alone. |
+| `next/extract` | Pull the pattern or idea; do not adopt the tool itself. Use when the implementation does not fit but the concept, approach, or design is worth capturing. |
+| `next/revisit` | Park with intent to return — not passive archiving. Use when something meaningful should happen later but active time is not available now. |
+| `next/archive` | Move to `90_ARCHIVE`; evaluation is complete and no further action is expected. |
+| `next/deploy` | Ready to integrate into active workflow. Use only after the operator has validated and the adoption path is clear. |
+
+---
+
+## Authority Rules
+
+The `authority/*` family identifies what kind of source supports the claim or classification. Use it to distinguish between what a vendor says, what the code actually does, and what the community has experienced in practice.
+
+| Value | Definition |
+|---|---|
+| `authority/official` | Official docs, maintainer statement, or product page. Shows intended behavior and official commitments. |
+| `authority/source-code` | Code, examples, tests, or commits. The most direct evidence of what something actually does. |
+| `authority/community` | Issues, discussions, Reddit, HN, or other forum signals. Shows real-world friction, adoption patterns, and unintended behavior. |
+| `authority/vendor-claim` | Marketing, README promise, sales copy, or other unverified claim. Should be tagged separately and treated with appropriate skepticism. |
+| `authority/internal` | Internal rule, operator context, or validated local judgment. Used for entries whose classification rests on operator-specific knowledge. |
+
+<Info>
+Always keep official and community evidence separate. Official evidence shows intended behavior. Community evidence shows real-world friction. When they conflict, surface the conflict before deciding — do not let one silently override the other. Community evidence can raise risk; it does not automatically override official evidence unless the signal is material, repeated, and directly relevant.
+</Info>
+
+---
+
+## Truth Rules
+
+The `truth/*` family records the epistemic state of the key claims attached to an entry. Use it to communicate how confident the classification is, and on what basis.
+
+| Value | Definition |
+|---|---|
+| `truth/verified` | Confirmed by primary evidence, a working test, or strong corroboration. Something has been directly checked or replicated. |
+| `truth/plausible` | Likely true but not tested enough to confirm. The evidence points in this direction but has not been validated hands-on. |
+| `truth/claimed` | Asserted but not verified. The claim comes from the source itself or a single unconfirmed report. |
+| `truth/conflicting` | Credible sources disagree. Both sides have evidence; the contradiction has not been resolved. |
+| `truth/outdated` | Likely stale or obsolete. The claim may have been accurate at one point but conditions have changed. |
+| `truth/unknown` | Not enough evidence to make any judgment. Use when research was genuinely inconclusive rather than when a claim simply hasn't been checked yet. |
+
+The key distinctions to hold clearly:
+
+- **`verified` vs `plausible`** — verified means something was tested or strongly corroborated; plausible means the reasoning is sound but it hasn't been confirmed.
+- **`claimed` vs `plausible`** — claimed is a raw assertion from a single source; plausible is a judgment based on supporting evidence that hasn't yet been tested directly.
+- **`conflicting` vs `unknown`** — conflicting means you have evidence on multiple sides; unknown means you don't have enough evidence to form any view.
+- **`outdated` vs `unknown`** — outdated means the claim was likely accurate at some point and has since decayed; unknown means there was never sufficient evidence.
+
+---
+
+## Fit Rules
+
+Fit rules govern how practical compatibility is assessed and when it becomes a deciding factor in classification. See [StackFit](/reference/stackfit) for the full evaluation model including value type, operator capability, adoption cost, friction threshold, and decision path.
+
+The core fit rules are:
+
+1. **Never mark `status/ready` unless fit is acceptable and the operator has validated the decision.** Fit must clear the friction threshold — documented setup, AI-assisted setup, and real free tiers are acceptable; card traps, unclear billing, fake freemium, enterprise assumptions, or incompatible ecosystems lower fit.
+
+2. **A project can be `status/core-good` if the idea is strong but implementation fit is bad.** Poor fit does not mean the entry has no value. Use `next/extract` to capture the pattern or idea without adopting the tool.
+
+3. **Directories and mega-lists often use `fit/discovery-only`.** These entries are useful for finding other things; they are not themselves directly adoptable. This is not a negative judgment.
+
+4. **Poor implementation fit does not mean worthless.** Depending on what value is available, the entry may deserve `next/extract`, `status/core-good`, `status/reference`, `status/watch`, or `status/later` rather than `status/rejected`.
+
+5. **Always separate Claim from Evidence before Verdict.** Do not merge what a vendor says, what the code shows, and what users report into a single undifferentiated judgment.
+
+6. **When official and community evidence conflict, surface the conflict before deciding.** Do not allow one type of evidence to silently override the other. The conflict itself is information.

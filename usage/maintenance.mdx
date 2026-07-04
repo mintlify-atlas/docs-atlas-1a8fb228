@@ -1,0 +1,71 @@
+---
+title: "Maintaining and Reviewing Your Decision Library"
+sidebarTitle: "Maintenance"
+description: "Periodic review keeps your library accurate and your taxonomy clean — covering inbox triage, pending decisions, action-ready entries, and batch normalization rules."
+---
+
+A decision library is only as useful as the care put into keeping it current. Links go stale, tags accumulate informal usage, and entries pile up in review queues. Periodic maintenance catches these problems before they erode trust in the system. The loop below covers every collection that requires attention and the rules that govern more invasive work like batch normalization.
+
+## Periodic Review Checklist
+
+Run through each collection in order. You do not need to resolve everything in a single session — the goal is to surface what needs attention, not to force premature decisions.
+
+<Steps>
+  <Step title="Review 00_INBOX for unprocessed items">
+    Any entry still sitting in `00_INBOX` has not been researched or proposed yet. Identify which items need a research pass and queue them for the assistant. Do not let INBOX accumulate into an unmanageable backlog — deferred capture loses context quickly.
+  </Step>
+  <Step title="Review 10_REVIEW for pending decisions">
+    Entries in `10_REVIEW` have been analyzed and proposed but not yet validated by you. Go through each proposal: approve, correct, or reject. Nothing in `10_REVIEW` should be treated as canonical until you explicitly confirm it.
+  </Step>
+  <Step title="Review 20_LIBRARY for entries whose next/* tag implies action">
+    Validated library entries often carry a `next/*` tag pointing to a concrete action — `next/test`, `next/deploy`, `next/spike`, `next/extract`. Periodically scan for entries where that action is now timely. Move them forward or update the tag to reflect a changed priority.
+  </Step>
+  <Step title="Review 90_ARCHIVE for obsolete or rejected items">
+    The archive holds rejected, outdated, duplicated, and historical entries. Review it occasionally to confirm that items marked `truth/outdated` or `status/rejected` have not been superseded by new versions, revived projects, or changed conditions that would warrant re-evaluation.
+  </Step>
+  <Step title="Review SYSTEM documents for taxonomy drift">
+    Tags accumulate informal usage over time. Values outside the controlled taxonomy creep in — shorthand tags, typos, ad-hoc categories. Compare the tags in active use against the definitions in `00_SYSTEM` entries and the reference tag registry. Flag any drift for normalization.
+  </Step>
+</Steps>
+
+## Taxonomy Drift
+
+Taxonomy drift happens when tags gradually shift away from their controlled definitions through informal use. Common patterns include: abbreviations that do not match approved values, new tag families invented without a SYSTEM entry, and status or fit tags applied with a different meaning than originally defined.
+
+Drift matters because the tag system is the query layer of the library. If `status/watch` means different things across different entries, searches and scans stop being reliable. Catching drift early — during a routine SYSTEM review — is far cheaper than correcting it across a large collection.
+
+<Accordion title="Batch Normalization Rules">
+
+  Batch normalization is the process of updating tags, fields, or note structures across multiple entries at once. It should be rare, explicit, and fully traceable. The assistant must never begin batch work without explicit operator approval.
+
+  **Before starting any batch normalization, the assistant must define:**
+
+  - The SYSTEM documents that govern the change
+  - The target collections in scope
+  - The exact fields to be changed
+  - What will remain untouched
+  - A sample plan covering a small representative set of entries for operator review before the full batch runs
+
+  **During normalization, the following must be preserved without alteration:**
+
+  - Original URL
+  - Original title (unless the operator has explicitly approved a title correction)
+  - Operator context and intent captured in the note
+  - Useful evidence already recorded
+  - Historical meaning embedded in earlier tags
+  - Valid uncertainty statements — do not resolve uncertainty silently
+
+  **After normalization, the assistant must report:**
+
+  - How many entries were inspected
+  - How many entries were updated
+  - Which collections were touched
+  - Which fields were changed
+  - Any entries that could not be resolved cleanly
+  - Any entries that need operator review before being considered normalized
+
+</Accordion>
+
+<Warning>
+  Do not silently rewrite decisions. Do not convert entries with `status/pending-review` into validated library entries. Do not promote entries from `10_REVIEW` to `20_LIBRARY` as part of a normalization pass. Normalization cleans structure — it does not substitute for operator validation.
+</Warning>

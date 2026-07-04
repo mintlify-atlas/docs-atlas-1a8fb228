@@ -1,0 +1,77 @@
+---
+title: "Decision Rain Library Project: Links as Decisions"
+sidebarTitle: "Introduction"
+description: "A lightweight template for turning saved links into reviewed decisions using Raindrop and ChatGPT — so you never lose why something mattered."
+---
+
+Most people save interesting links expecting to come back to them later. Later arrives, and the link is still there — but the reason it seemed worth saving is gone. Decision Rain Library Project exists to close that gap: instead of archiving a URL, you archive a judgment.
+
+## What the project is
+
+Decision Rain Library Project is a small set of rules, note templates, tag definitions, and governance documents that turns Raindrop into a reviewed-decision library. It is a **template and operating system**, not a code library, plugin, or automation framework. The runtime is the combination of your Raindrop account, a set of SYSTEM governance entries stored inside it, and an AI assistant — such as ChatGPT — connected to that account.
+
+The project gives the assistant a repeatable way to inspect a link and propose a structured review before the link disappears into a growing pile of bookmarks.
+
+## Why plain bookmarks are not enough
+
+Saving a URL preserves the address but nothing else. By the time you return to it, you have lost the signal: what caught your attention, what you were trying to solve, whether the project was maintained, whether it actually fit your setup. A folder full of bookmarks does not answer those questions any faster the second time around.
+
+Decision Rain Library Project makes the AI inspect the link at capture time and write down the answers while the context is still fresh.
+
+## The core principle
+
+The project is built on a single rule from its specification:
+
+> Do not catalog links — catalog decisions.
+
+Every entry in the library carries not just a URL but a judgment: what is known, what is uncertain, what the evidence supports, and what the next action should be. Collections represent lifecycle states — inbox, review, library, archive — not topic folders.
+
+## What every reviewed entry captures
+
+A reviewed entry answers six questions before the link is moved out of the inbox:
+
+1. **What it is** — the type of resource and what it appears to provide
+2. **Why it may matter** — what problem or opportunity it connects to
+3. **What is known** — what the official docs, README, source, or pricing confirm
+4. **What is uncertain** — what community signals, open issues, or missing evidence reveal
+5. **What the next step should be** — a concrete action: test, extract, watch, archive
+6. **Practical fit** — whether this is realistically usable given your tools, accounts, setup, and friction tolerance
+
+These six dimensions become the structured review note attached to the Raindrop bookmark.
+
+## Who this is for
+
+This project is for people who regularly save GitHub repositories, tools, documentation pages, products, research papers, workflow ideas, or "interesting for later" sparks — and who later forget why. If your bookmark manager contains dozens of links you can no longer evaluate without re-reading them, this project gives you a system for doing the work once, at capture time, and storing the result.
+
+You do not need to know why something matters at the moment you save it. The point is to preserve the trace and turn it into a decision before the context is lost.
+
+## What this project is not
+
+Understanding the limits is as important as understanding what the project provides.
+
+- It is **not a full knowledge base** or personal information system.
+- It is **not an automation framework** — there is no CI, build process, or scheduled workflow.
+- It is **not a promise that AI can decide for you** — the assistant proposes; the operator always validates.
+
+The assistant has proposal authority. The human operator has validation authority. That boundary is preserved by design throughout every document in the system.
+
+<Note>
+  Decision Rain Library Project is an independent, user-created template for organizing reviewed decisions around saved links. It is not affiliated with, endorsed by, or sponsored by Raindrop.io.
+</Note>
+
+## Where to go next
+
+<CardGroup cols={2}>
+  <Card title="How It Works" icon="arrow-right-arrow-left" href="/how-it-works">
+    See the six-step review loop and understand how a link becomes a decision.
+  </Card>
+  <Card title="Setup" icon="wrench" href="/setup">
+    Create the collection structure in Raindrop and connect your ChatGPT assistant.
+  </Card>
+  <Card title="Collections" icon="folder-open" href="/concepts/collections">
+    Understand each collection's role in the decision lifecycle.
+  </Card>
+  <Card title="Tag Registry" icon="tags" href="/reference/tag-registry">
+    Explore the controlled tag grammar that makes entries findable and consistent.
+  </Card>
+</CardGroup>

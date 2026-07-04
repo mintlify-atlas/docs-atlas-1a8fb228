@@ -1,0 +1,167 @@
+---
+title: "StackFit: Evaluating Realistic Adoption Cost"
+sidebarTitle: "StackFit"
+description: "The StackFit model for assessing practical compatibility: how realistically the operator can extract value from an item given capability, cost, and friction."
+---
+
+StackFit is a structured judgment about how realistically the operator can get value from a library entry. It is not a checklist of tools the operator happens to use, and it is not a pass/fail compatibility test. It is a holistic assessment that weighs what kind of value is available, what the operator can realistically do, what it would cost to get there, and where friction makes adoption unlikely. The output of StackFit is a decision path — not just a fit score.
+
+---
+
+## The Five Evaluation Dimensions
+
+Every StackFit assessment works through five dimensions in order. The first dimension tells you what value is even theoretically available; the last tells you what to do about it.
+
+<Steps>
+  <Step title="Value Type">
+    Identify what kind of value the entry offers. Not every item is meant to be directly adopted.
+
+    Possible value types:
+    - **Direct use** — the item can be used as-is in the operator's workflow
+    - **Assisted implementation** — the item can be implemented with AI or tool assistance
+    - **Workflow integration** — the item fits into an existing automation or process layer
+    - **Idea extraction** — the item contains a concept or pattern worth capturing, even if the tool is not adopted
+    - **Reference** — the item is useful for learning, documentation, or future lookup
+    - **Discovery only** — the item is a directory or aggregator; its value is in what it points to, not itself
+  </Step>
+
+  <Step title="Operator Capability">
+    Assess what the operator can realistically bring to bear. Capability determines whether an adoption path is viable regardless of how good the item is.
+
+    Operator capability includes:
+    - Local workstation
+    - Editor (e.g. VS Code)
+    - AI assistants
+    - GitHub access
+    - Automation layers (e.g. Pipedream)
+    - Raindrop as library backend
+  </Step>
+
+  <Step title="Adoption Cost">
+    Enumerate every cost the operator would incur to get value from the item.
+
+    Adoption costs include:
+    - External dependencies
+    - Local tooling to install or configure
+    - Account registration
+    - API access requirements
+    - Framework or language constraints
+    - Service maintenance overhead
+    - Unfamiliar ecosystem ramp-up
+    - Payment, card entry, or billing risk
+  </Step>
+
+  <Step title="Friction Threshold">
+    Apply the friction threshold to determine whether adoption cost is acceptable.
+
+    **Acceptable friction:**
+    - Documented setup (instructions exist and are clear)
+    - AI-assisted setup (an LLM can walk the operator through it)
+    - Real free tier (a functional, meaningful free tier exists)
+
+    **Friction that lowers fit:**
+    - Card traps (free tier requires a payment card)
+    - Unclear billing (pricing is obscured or inconsistent)
+    - Fake freemium (free tier is too limited to be genuinely useful)
+    - Enterprise assumptions (the product is designed for teams or orgs, not individuals)
+    - Incompatible ecosystems (the item only makes sense in a stack the operator does not use)
+  </Step>
+
+  <Step title="Decision Path">
+    Conclude with one of the following decision paths. This maps directly to the `next/*` and `status/*` tags used in the library.
+
+    | Decision | Tags |
+    |---|---|
+    | Use it | `status/ready` + `next/deploy` |
+    | Test it first | `status/dissect` or `status/pending-review` + `next/test` |
+    | Explore it with a spike | `status/pending-review` + `next/spike` |
+    | Extract the idea | `status/core-good` + `next/extract` |
+    | Keep as reference | `status/reference` + `next/revisit` or `next/archive` |
+    | Watch for maturity | `status/watch` + `next/revisit` |
+    | Reject it | `status/rejected` + `next/archive` |
+  </Step>
+</Steps>
+
+---
+
+## The type / source / fit Distinction
+
+These three families are frequently confused because they all describe aspects of an entry. They answer different questions and must not be mixed.
+
+<Note>
+- **`type/*`** describes what kind of object the entry is (repo, guide, paper, service, directory, pattern, etc.)
+- **`source/*`** describes where the entry comes from (GitHub, a personal blog, a product site, etc.)
+- **`fit/*`** describes practical compatibility — how realistically the operator can get value from it
+
+GitHub is a source, not a fit judgment. An item hosted on GitHub may be code, docs, a guide, a pattern, a directory, research, an idea, an example, or a spark. Where it lives says nothing about whether the operator can use it.
+</Note>
+
+An entry can have `source/github` and `fit/dev-heavy` at the same time — those facts do not contradict each other. The source tells you where it lives; the fit tag tells you what adoption would require.
+
+---
+
+## Poor Fit Does Not Mean Worthless
+
+A low StackFit score is not a rejection. When implementation fit is poor, ask whether there is still extractable value:
+
+- The idea or design pattern is strong → `status/core-good` + `next/extract`
+- The item is useful to know about but not to use → `status/reference` + `next/archive`
+- The ecosystem might mature → `status/watch` + `next/revisit`
+- The priority is wrong right now → `status/later` + `next/revisit`
+- No value at all, evaluation complete → `status/rejected` + `next/archive`
+
+Use `status/rejected` only when the entry has been fully evaluated and offers no residual value — not even as a reference or idea source.
+
+---
+
+## StackFit in the Note Template
+
+When writing a decision note for a library entry, the StackFit field should address all five dimensions. It should be written in plain prose, not as a tag list. The tags are applied separately; the StackFit field is where the reasoning lives.
+
+A complete StackFit note addresses:
+- What kind of value is available (value type)
+- What the operator can realistically do with it (operator capability)
+- What it would cost to get there (adoption cost)
+- Whether that cost clears the friction threshold (friction threshold)
+- What the decision is (decision path)
+
+### Good StackFit Note Examples
+
+```text
+StackFit: The item is a hosted service with a real free tier and no card required.
+Setup is documented and AI-assisted configuration is feasible. Direct integration with
+the operator's automation layer via webhook. Decision: test in Pipedream sandbox.
+```
+
+```text
+StackFit: Core pattern is strong — structured tagging over flat bookmarks is exactly
+the right abstraction. The specific implementation requires a self-hosted Node stack
+with persistent storage, which exceeds the operator's current setup tolerance.
+Decision: extract the pattern, do not adopt the tool. Revisit if a hosted option appears.
+```
+
+```text
+StackFit: Directory of 200+ tools. No direct adoption path — this is a discovery
+resource only. Value is in individual items, not in the directory itself.
+Decision: mark discovery-only, harvest relevant items to inbox separately.
+```
+
+### Poor StackFit Note Examples
+
+```text
+StackFit: Good tool, might be useful.
+```
+
+This entry says nothing about value type, operator capability, cost, or friction. There is no decision path. It cannot be acted on.
+
+```text
+StackFit: Uses GitHub.
+```
+
+GitHub is a source, not a fit judgment. This note confuses `source/*` with `fit/*` and provides no usable assessment.
+
+```text
+StackFit: Popular and well-reviewed.
+```
+
+Popularity and reviews are authority signals (`authority/community`), not fit judgments. Fit is about the operator's environment and adoption cost, not general reputation.

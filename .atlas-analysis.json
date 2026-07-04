@@ -1,0 +1,101 @@
+{
+  "projectType": "general",
+  "projectName": "Decision Rain Library Project",
+  "projectDescription": "A lightweight template for organizing reviewed links, tools, repos, and research signals using Raindrop and ChatGPT — turning bookmarks into structured decisions.",
+  "theme": "willow",
+  "primaryColor": "#4A6CF7",
+  "lightColor": "#EEF2FF",
+  "darkColor": "#1E2A5E",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guide",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "introduction",
+              "how-it-works",
+              "setup"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "concepts/collections",
+              "concepts/ingestion-flow",
+              "concepts/decision-levels"
+            ]
+          },
+          {
+            "group": "Daily Usage",
+            "pages": [
+              "usage/daily-flow",
+              "usage/signals",
+              "usage/maintenance"
+            ]
+          },
+          {
+            "group": "Customization",
+            "pages": [
+              "customization/overview",
+              "customization/fit-tags"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Tags & Rules",
+            "pages": [
+              "reference/tag-registry",
+              "reference/decision-rules",
+              "reference/stackfit"
+            ]
+          },
+          {
+            "group": "Templates & Examples",
+            "pages": [
+              "reference/note-template",
+              "reference/examples",
+              "reference/collection-structure"
+            ]
+          },
+          {
+            "group": "Agent Contract",
+            "pages": [
+              "reference/agent-contract",
+              "reference/agent-proposals",
+              "reference/normalization"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Structured decision notes: every saved link gets a Verdict, Next, Claim, Evidence, Authority, Truth, and StackFit field",
+    "Controlled tag taxonomy with approved families (status/*, truth/*, fit/*, next/*, and more)",
+    "Five-collection Raindrop structure: SYSTEM, INBOX, REVIEW, LIBRARY, ARCHIVE",
+    "Agent contract that enforces strict operator-gate: AI proposes, human decides",
+    "StackFit model for evaluating realistic adoption cost and compatibility",
+    "Golden examples for canonical classification patterns",
+    "Customizable tag families, domains, and item types for personal workflows",
+    "Works with ChatGPT + Raindrop MCP or any Raindrop-connected AI assistant"
+  ],
+  "publicApiSurface": [
+    "Collection structure: 00_SYSTEM, 00_INBOX, 10_REVIEW, 20_LIBRARY, 90_ARCHIVE",
+    "Note template fields: Cataloged, Verdict, Next, Claim, Evidence, Authority, Truth, StackFit",
+    "Tag families: authority/*, truth/*, status/*, type/*, domain/*, source/*, scenario/*, risk/*, stack/*, fit/*, next/*, priority/*",
+    "Status values: dissect, ready, later, core-good, watch, rejected, reference, pending-review",
+    "Next values: test, spike, extract, revisit, archive, deploy",
+    "Truth values: verified, plausible, claimed, conflicting, outdated, unknown",
+    "Authority values: official, source-code, community, vendor-claim, internal",
+    "Fit tags: fit/windows, fit/vscode, fit/ai-assisted, fit/llm-chat, fit/mcp, fit/local, fit/free-tier-real, fit/no-card, fit/paywall-risk, fit/dev-heavy, fit/discovery-only",
+    "Ingestion flow: save to INBOX -> assistant researches -> operator validates -> move to REVIEW/LIBRARY/ARCHIVE",
+    "Connector description template for ChatGPT Raindrop integration",
+    "System bookmark link placeholder URL pattern"
+  ]
+}

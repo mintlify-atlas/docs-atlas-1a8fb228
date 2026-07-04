@@ -1,0 +1,89 @@
+---
+title: "Raindrop Collection Layout and SYSTEM Bookmarks"
+sidebarTitle: "Collection Layout"
+description: "The recommended five-collection Raindrop structure for Decision Rain and the stable placeholder URL pattern used for SYSTEM documents that live inside Raindrop."
+---
+
+Raindrop organizes bookmarks into collections. Decision Rain uses a specific five-collection layout under a single parent so the operator and the assistant always agree on where an entry lives and what its presence there means. This page covers how to set up that layout and how the `00_SYSTEM` collection handles documents that have no external URL.
+
+## Recommended Collection Structure
+
+The full collection hierarchy is a single parent with five sub-collections. Every bookmark in the system belongs to exactly one of these five collections at any given time.
+
+```text
+Decision Rain Library Project
+  00_SYSTEM
+  00_INBOX
+  10_REVIEW
+  20_LIBRARY
+  90_ARCHIVE
+```
+
+## Collection Roles
+
+Each collection has a single, non-overlapping responsibility. For the full conceptual explanation of what each collection represents and how entries move between them, see the [Collections](/concepts/collections) reference page.
+
+| Collection | Role |
+|---|---|
+| `00_SYSTEM` | Governance documents: the agent contract, system spec, tag registry, decision rules, note template, golden examples, and usage flow. |
+| `00_INBOX` | New links before evaluation. Every new link starts here. |
+| `10_REVIEW` | Entries that have been identified as worth analysis but have not yet been decided. |
+| `20_LIBRARY` | Evaluated and operator-validated decision entries. |
+| `90_ARCHIVE` | Rejected, inactive, outdated, duplicated, or historically interesting entries. |
+
+<Note>
+  Every new link starts in `00_INBOX`. The assistant may preserve a link immediately if the context is clear, but final placement in `20_LIBRARY` requires explicit operator validation.
+</Note>
+
+## SYSTEM Bookmark URLs and the Placeholder Pattern
+
+Raindrop requires every bookmark to have a URL. The `00_SYSTEM` collection contains governance documents — the agent contract, tag registry, note template, and so on — that exist only inside Raindrop as bookmark excerpts. They are not hosted at any external URL.
+
+To satisfy Raindrop's URL requirement while keeping the document addressable, each SYSTEM bookmark uses a stable placeholder URL. The placeholder follows a consistent slug pattern that identifies the document by its role in the system.
+
+```text
+https://example.com/rdl-agent-contract
+https://example.com/rdl-system-spec
+https://example.com/rdl-tag-registry
+https://example.com/rdl-decision-rules
+https://example.com/rdl-note-template
+https://example.com/rdl-examples-golden
+https://example.com/rdl-usage-flow
+```
+
+These URLs resolve to the generic `example.com` placeholder page. They are identifiers, not sources. The actual content of each SYSTEM document lives in the **bookmark excerpt** inside Raindrop — not at the URL.
+
+## The Source-of-Truth Rule
+
+The URL is not the source of truth for SYSTEM content. The bookmark excerpt is the source of truth. This distinction matters because the assistant must read the excerpt to understand the governance rules — opening the placeholder URL will return an empty or generic page that contains none of the system content.
+
+<Warning>
+  If the assistant can only open the placeholder URL and cannot read the Raindrop excerpt, it must **stop and ask the operator for access to the SYSTEM content**. It must not proceed with evaluation, classification, or note-writing tasks while the SYSTEM documents are inaccessible. Operating without access to the agent contract and governance rules risks producing notes and classifications that contradict the operator's configured system.
+</Warning>
+
+## Required Read Order for SYSTEM Documents
+
+When the assistant is initialized or re-oriented in a session, it must read the SYSTEM documents in a specific order. The agent contract establishes the rules that govern how all subsequent documents are interpreted.
+
+<Steps>
+  <Step title="Read 00_AGENT_CONTRACT first">
+    The agent contract defines the assistant's role, authority limits, and the gate rule. Everything else builds on it.
+  </Step>
+  <Step title="Read 01 through 05 in order">
+    Documents 01 through 05 are the system spec, tag registry, decision rules, note template, and golden examples. Read them in sequence — each document assumes the previous ones are already loaded.
+  </Step>
+</Steps>
+
+## SYSTEM Document Index
+
+The table below lists each SYSTEM document with its placeholder URL slug and its purpose in the governance system.
+
+| Document | Placeholder URL Slug | Purpose |
+|---|---|---|
+| `00_AGENT_CONTRACT` | `rdl-agent-contract` | Defines the assistant's role, authority limits, behavior rules, and the operator gate. Must be read first. |
+| `01_SYSTEM_SPEC` | `rdl-system-spec` | Describes the overall system architecture, collection roles, and how entries move through the workflow. |
+| `02_TAG_REGISTRY` | `rdl-tag-registry` | The canonical list of all approved tags organized by dimension. Controls vocabulary and prevents drift. |
+| `03_DECISION_RULES` | `rdl-decision-rules` | The logic rules for classification decisions: when to use each status, how to handle conflicting evidence, and edge-case guidance. |
+| `04_NOTE_TEMPLATE` | `rdl-note-template` | The eight-field note format every evaluated entry must use. Includes field definitions and the anti-truncation rule. |
+| `05_EXAMPLES_GOLDEN` | `rdl-examples-golden` | Three canonical classification examples that anchor the taxonomy and prevent drift. The first reference when an entry is ambiguous. |
+| `06_USAGE_FLOW` | `rdl-usage-flow` | Step-by-step walkthrough of the standard operator session: from submitting a link through validation and archiving. |

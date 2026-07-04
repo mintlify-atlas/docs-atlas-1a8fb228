@@ -1,0 +1,114 @@
+---
+title: "Personalizing Fit Tags for Your Environment"
+sidebarTitle: "Fit Tags"
+description: "Understand what fit/* tags measure, which built-in values are available, and how to adapt or extend them to match your real operating environment and adoption threshold."
+---
+
+Fit tags do not describe a list of tools you happen to own. They describe a practical judgment: given your actual operating environment, your real adoption threshold, and the realistic cost of getting value from something, does this item fit? That distinction matters because StackFit is an evaluation of compatibility — not a checklist of installed software. Two operators with identical tool stacks can have very different fit judgments depending on their time, budget, and tolerance for setup friction.
+
+## What StackFit Evaluates
+
+Every fit judgment is built from four factors. These factors combine to produce a realistic picture of whether an operator can actually get value from a saved item.
+
+<Steps>
+  <Step title="Value Type">
+    What kind of value does the item offer? Options include direct use, assisted implementation, workflow integration, idea extraction, reference material, and discovery only. A tool you can use directly has different fit implications than a pattern you need to extract and reimplement.
+  </Step>
+  <Step title="Operator Capability">
+    What is your real operating context? This includes your local workstation, editor, AI assistants, GitHub access, automation layers, and supported connectors. Capability is not aspirational — it reflects what you actually use today.
+  </Step>
+  <Step title="Adoption Cost">
+    What does getting started actually require? Dependencies, accounts, APIs, frameworks, unfamiliar ecosystems, payment, and billing risk all count. High adoption cost lowers fit even when the item itself is high quality.
+  </Step>
+  <Step title="Friction Threshold">
+    Which friction patterns are acceptable for your workflow, and which are not? Documented setup and AI-assisted configuration are acceptable. Card traps, unclear billing, fake freemium tiers, enterprise-only assumptions, and incompatible ecosystems lower fit and should be flagged with dedicated tags.
+  </Step>
+</Steps>
+
+## Built-in Fit Tags
+
+The tag registry ships with sixteen fit tags covering the most common compatibility dimensions. Each tag is a specific, interrogable judgment — not a label of ownership.
+
+| Tag | Meaning |
+|---|---|
+| `fit/windows` | Item is compatible with or designed for a Windows environment |
+| `fit/vscode` | Item integrates with or works well inside VS Code |
+| `fit/ai-assisted` | Setup or use is realistic with AI assistance |
+| `fit/llm-chat` | Item is usable or most valuable through an LLM chat interface |
+| `fit/pipedream` | Item connects or integrates with Pipedream as an automation layer |
+| `fit/automation-layer` | Item fits within a generic automation or workflow orchestration layer |
+| `fit/mcp` | Item is relevant to or compatible with MCP-based connectors |
+| `fit/local` | Item runs locally without requiring external services or cloud dependencies |
+| `fit/free-tier-real` | Free tier is genuine — not a trial, not a card trap, not fake freemium |
+| `fit/no-card` | No payment card is required to get started or use the free tier |
+| `fit/account-required` | An account is required before the item is usable |
+| `fit/paywall-risk` | Core functionality may be gated behind a paywall that is not clearly disclosed |
+| `fit/freemium-risk` | Free tier exists but key features or limits make real use unlikely without paying |
+| `fit/dev-heavy` | Item requires significant development work, custom integration, or code to be useful |
+| `fit/discovery-only` | Item is useful for finding other things, not for direct adoption |
+| `fit/owned-hardware` | Item requires specific hardware that the operator already owns |
+
+## Shared Templates vs. Personal Setups
+
+The built-in fit tags are intentionally generic so that this template can be shared or published without exposing private workflow details. When you use this template in a personal setup, you may find that more specific tool-based fit tags are useful.
+
+<Info>
+  Prefer generic fit tags (`fit/local`, `fit/free-tier-real`, `fit/automation-layer`) for shared or public templates. Add tool-specific tags — such as `fit/vscode` or `fit/pipedream` — only when you need that precision for your own decision-making. Tool-specific fit tags may be added only with operator approval, following the standard governance process.
+</Info>
+
+## Tags That Must NOT Be Used as Fit Tags
+
+Two tags from adjacent domains are explicitly off-limits for fit judgments. Using them as fit tags would confuse source and backend with compatibility.
+
+<Note>
+  Do not use `fit/raindrop` or `fit/browser` as fit tags.
+
+  **Raindrop** is the library backend for this entire system. It is not a tool whose compatibility needs to be evaluated — it is the infrastructure. Using `fit/raindrop` would imply that Raindrop is optional or swappable, which misrepresents the system's design.
+
+  **Browser** is a generic access surface. Almost every link in the library is accessible through a browser. Tagging something `fit/browser` provides no useful adoption signal and would pollute the tag space with noise.
+</Note>
+
+## Source Tags Are Not Fit Tags
+
+A common confusion is treating the origin of a link as a fit signal. GitHub is the clearest example.
+
+A GitHub link is tagged `source/github` because that describes where it came from. It does not say anything about whether the item fits your environment. A GitHub item might be a code library, a guide, a pattern to extract, a research paper, a directory of resources, or a spark of an idea. Its source says nothing about adoption cost, value type, or compatibility. Use `type/*` to describe what it is, and `fit/*` to describe how it fits — never collapse those two into one.
+
+## Adoption Cost Signals
+
+When evaluating fit, these factors **lower** the fit assessment and should be tagged explicitly:
+
+```text
+# Factors that lower fit — tag or note them explicitly
+Card traps            (fit/paywall-risk, fit/freemium-risk)
+Unclear billing       (fit/paywall-risk)
+Fake freemium         (fit/freemium-risk)
+Enterprise-only       (note in StackFit assessment)
+Incompatible ecosystem  (note in StackFit assessment)
+Significant dev work  (fit/dev-heavy)
+```
+
+These factors are **acceptable** and do not lower the fit assessment:
+
+```text
+# Acceptable friction — does not penalize fit
+Documented setup
+AI-assisted configuration  (fit/ai-assisted)
+Real free tier             (fit/free-tier-real)
+No-card access             (fit/no-card)
+```
+
+## When Poor Fit Does Not Mean Worthless
+
+A poor StackFit score does not disqualify an item from the library. Many items with bad practical fit still contain valuable ideas, useful reference material, or patterns worth extracting. The library exists precisely to hold these cases without losing them.
+
+<Tip>
+  When fit is poor but value exists, use these combinations to keep the item without misrepresenting its readiness:
+
+  - `next/extract` + `status/core-good` — the core idea is worth pulling out, even if the tool is not adoptable
+  - `status/reference` + `next/revisit` — useful as documentation or learning material now, possibly more later
+  - `status/watch` — monitor for changes to pricing, access, maturity, or ecosystem compatibility
+  - `status/later` — not a current priority, but worth returning to
+
+  A polished project is not `status/ready` unless StackFit is acceptable **and** the operator validates it. Never let a high-quality source override a bad adoption cost story.
+</Tip>

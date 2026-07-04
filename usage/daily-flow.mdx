@@ -1,0 +1,51 @@
+---
+title: "The Daily Decision Rain Operating Loop"
+sidebarTitle: "Daily Flow"
+description: "A six-step day-to-day operating loop for capturing signals, researching items, proposing classifications, and validating decisions before anything moves."
+---
+
+Running the Decision Rain Library well does not require a large daily commitment — it requires a consistent loop. Each time you encounter something worth saving, the same six steps play out: capture, research, propose, validate, update, move. The assistant handles the mechanical work; you hold the decision authority. Nothing in the library changes without your explicit say.
+
+<Steps>
+  <Step title="Operator finds a signal">
+    You encounter something that catches your attention — a GitHub repository, a tool, an article, a service, a guide, a workflow idea, or a research spark. You do not need to know whether it is useful yet. Noticing it is enough.
+  </Step>
+  <Step title="Assistant saves the original link to 00_INBOX">
+    The assistant saves the raw link to `00_INBOX` immediately, with `status/pending-review` and one `next/*` tag. The entry is preserved exactly as found — no cleaning, no reclassifying, no moving. Every new entry starts in `00_INBOX` without exception.
+  </Step>
+  <Step title="Assistant researches the item">
+    The assistant inspects the item using all available tools. Research draws from two evidence layers:
+
+    - **Official evidence** — documentation, README, source code, pricing pages, release notes, and maintainer statements.
+    - **Community evidence** — GitHub issues, discussions, Reddit threads, Hacker News comments, adoption signals, and pricing complaints.
+
+    If the assistant cannot inspect the target well enough — due to a paywall, a broken link, a private repository, or insufficient public documentation — it stops and reports exactly what was saved, what evidence is available, what evidence is missing, what the access problem is, and the minimum step needed to unblock further research.
+  </Step>
+  <Step title="Assistant proposes classification, tags, Verdict, Next, and uncertainty">
+    After gathering evidence, the assistant produces a structured proposal. This includes a suggested collection, a full set of tags (`status/*`, `type/*`, `domain/*`, `truth/*`, `fit/*` when relevant, `next/*`), a Verdict, a Next action, and an honest statement of uncertainty. The proposal surfaces any conflict between official and community evidence before naming a conclusion.
+  </Step>
+  <Step title="Operator validates, corrects, or rejects the proposal">
+    You review the proposal and make one of three moves: approve it as written, correct specific fields and approve the revised version, or reject it entirely. Validation means an explicit response. Silence is not validation. Confidence in the proposal is not validation. A similar approval from a previous entry is not validation.
+  </Step>
+  <Step title="Assistant updates and moves the entry only after validation">
+    Only after you validate does the assistant write the final note, apply the confirmed tags, and move the entry to the appropriate collection — `10_REVIEW`, `20_LIBRARY`, or `90_ARCHIVE`. The assistant may preserve and propose at any time, but it waits for your explicit approval before moving, promoting, archiving, or rewriting any entry.
+  </Step>
+</Steps>
+
+## Decision Levels Are Not Interchangeable
+
+The loop enforces three distinct levels that must never be collapsed:
+
+- **Signal** — the item caught your attention.
+- **Analysis** — the assistant explains what it is, what evidence exists, and what is missing.
+- **Decision** — you validate what to do with it.
+
+Saving a link is not a decision. A completed analysis is not a decision. A well-structured proposal is not a decision. Only your explicit approval converts a proposal into a validated entry.
+
+<Tip>
+  Validate proposals promptly. The longer a batch of proposals sits unreviewed in `00_INBOX`, the harder it becomes to recall why each item caught your attention. A short validation session right after a research pass keeps the loop tight and your decisions grounded in fresh context.
+</Tip>
+
+<Warning>
+  The assistant must never move, promote, archive, or rewrite an entry without explicit operator validation. A clean-looking proposal, a high-confidence analysis, or a long queue of unreviewed items are not grounds for skipping this step. If validation has not happened, the entry stays where it is.
+</Warning>

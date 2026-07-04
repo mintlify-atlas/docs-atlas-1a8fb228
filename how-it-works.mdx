@@ -1,0 +1,111 @@
+---
+title: "How the Decision Rain Review Loop Works"
+sidebarTitle: "How It Works"
+description: "A step-by-step look at the link-to-decision pipeline: how a raw URL becomes a structured, reviewed entry with verdict, evidence, and a next action."
+---
+
+The Decision Rain review loop is the heart of the project. It is a six-step cycle that takes a raw link — a GitHub repo, a tool page, a research spark — and turns it into a bookmark with a written judgment attached. The assistant does the inspection work; the operator makes every consequential call. Understanding where that boundary sits is the key to using the system well.
+
+## The six-step loop
+
+<Steps>
+  <Step title="Give ChatGPT a link">
+    You share a URL with the assistant — a repository, a documentation page, a product, a guide, or anything that caught your attention. You do not need to explain why it seemed interesting. Capturing the trace is enough.
+  </Step>
+  <Step title="Save the original link to INBOX">
+    Before doing anything else, the assistant saves the original URL to the `00_INBOX` collection in Raindrop. This step is never skipped. Preserving the trace before analysis prevents the assistant from treating capture as classification.
+  </Step>
+  <Step title="Read the page and available sources">
+    The assistant inspects the link using available tools. It reads the page, repository README, documentation, source code samples, pricing page, release notes, and any other official sources it can reach. It also gathers community signals: issues, discussions, forum threads, Hacker News and Reddit mentions, and adoption reports.
+  </Step>
+  <Step title="Write a structured review">
+    The assistant produces a compact review note using the standard template. The review covers what the link claims to provide, what evidence supports or weakens that claim, where the evidence comes from, how confident the assessment is, and what the practical next action is. The note is designed to be scannable later without re-reading the original link.
+  </Step>
+  <Step title="You decide">
+    The assistant presents its proposal — suggested tags, collection, verdict, and next step. You review it and decide whether to accept, correct, or reject it. The assistant may not move an entry, assign final tags, or mark a decision as validated without your explicit approval. A clean proposal is not approval; silence is not approval.
+  </Step>
+  <Step title="Move the entry to the right collection">
+    After you validate the proposal, the assistant moves the entry to the appropriate collection: `10_REVIEW` if more analysis is needed, `20_LIBRARY` if the decision is confirmed, or `90_ARCHIVE` if the link is rejected, outdated, or no longer relevant.
+  </Step>
+</Steps>
+
+## The AI proposes — the operator decides
+
+The most important thing to understand about the loop is the authority boundary. The assistant has **proposal authority**: it can inspect, research, describe, tag suggestions, surface risks, and recommend a decision path. It does **not** have validation authority.
+
+Only you can:
+
+- mark an entry as a canonical library decision
+- promote an entry into `20_LIBRARY`
+- archive an entry
+- approve new tag values
+- change SYSTEM documents
+
+Previous similar approvals, high assistant confidence, clean formatting, and strong source evidence do not count as validation. Every promotion requires an explicit operator action.
+
+## The review note shape
+
+Every reviewed entry uses a consistent note template so that the key judgment is always in the same place. Because Raindrop may truncate long excerpts, `Verdict` and `Next` appear near the top.
+
+```text
+Cataloged: YYYY-MM-DD
+Verdict: short practical judgment.
+Next: the next useful action.
+Claim: what the link appears to provide.
+Evidence: what supports or weakens that claim.
+Authority: where the evidence comes from.
+Truth: how confident the review is.
+Practical fit: whether this is realistically useful for your situation.
+```
+
+The three fields `Claim`, `Evidence`, and `Verdict` are intentionally kept separate. The claim states what the item appears to offer. Evidence states what the assistant found to support or contradict that. Verdict states the practical judgment after weighing all of it. Collapsing these three into a single opinion defeats the purpose of a structured review.
+
+## The five collections and how a link flows through them
+
+Collections are lifecycle states, not topical folders. A link moves through them in a defined sequence.
+
+| Collection | Role |
+|---|---|
+| `00_SYSTEM` | Governance documents only. Rules, templates, examples, and the agent contract live here. |
+| `00_INBOX` | Every new link lands here first, without exception, before any analysis. |
+| `10_REVIEW` | Links that have been analyzed and are worth a closer look before a final decision. |
+| `20_LIBRARY` | Evaluated, operator-validated decisions. Only entries the operator has explicitly approved belong here. |
+| `90_ARCHIVE` | Rejected, outdated, duplicated, inactive, or historical entries. |
+
+The normal flow through the state machine is:
+
+```text
+signal -> 00_INBOX -> analysis proposal -> operator validation -> 10_REVIEW / 20_LIBRARY / 90_ARCHIVE
+```
+
+A direct write into `20_LIBRARY` is only valid after explicit operator validation — regardless of how strong the evidence is.
+
+## What evidence the assistant gathers
+
+The assistant keeps two categories of evidence separate, because they answer different questions.
+
+**Official evidence** describes intended behavior. It includes:
+
+- documentation and README claims
+- source code and examples
+- release notes and changelogs
+- pricing pages and maintainer notes
+- product pages
+
+**Community evidence** reveals operational friction. It includes:
+
+- GitHub issues and discussions
+- forum and mailing list reports
+- Reddit and Hacker News signals
+- adoption friction, setup failures, and pricing complaints
+- real-world breakage reports
+
+If official and community evidence conflict, the conflict must be surfaced in the review before a verdict is written. A useful decision note does not blend these two sources into a single narrative.
+
+## When evidence is insufficient
+
+The assistant must not classify an entry from insufficient evidence. If it cannot find enough information to write a confident review — or if it cannot read the SYSTEM governance documents from Raindrop — it stops, reports what is missing, and waits for operator guidance.
+
+<Tip>
+  If you ask the assistant to review a link and it returns a partial note with unresolved questions, that is the system working correctly. Preserving the uncertainty is more useful than filling in confident guesses.
+</Tip>

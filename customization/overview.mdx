@@ -1,0 +1,97 @@
+---
+title: "Customizing the Decision Rain Template"
+sidebarTitle: "Customization"
+description: "Learn which parts of the Decision Rain template to adapt — fit tags, domains, item types, priority markers, and examples — and how governance rules protect the taxonomy."
+---
+
+The Decision Rain Library Project is deliberately small and opinionated, but it is not meant to run unchanged out of the box. The tag families, example entries, and fit judgments in this template reflect a starting point — not a finished personal system. Before you use this seriously, you should adapt it so that the tags describe your actual environment, the domains reflect the topics you care about, and the examples mirror the kinds of links you actually save.
+
+## The Five Customization Areas
+
+Each area below corresponds to a concrete part of the template. Start with the ones that feel most wrong for your situation.
+
+<CardGroup cols={2}>
+  <Card title="Fit Tags" icon="wrench">
+    Define what tools, accounts, devices, budget constraints, and setup friction thresholds are real for your environment. The built-in fit tags are a reasonable default, but your stack may differ.
+  </Card>
+  <Card title="Domains" icon="folder-open">
+    The `domain/*` family captures the topic or subject area of a saved link. Add values for the domains you work in — automation, writing, design, hardware, research, productivity, or anything else that matters to your workflow.
+  </Card>
+  <Card title="Item Types" icon="tag">
+    The `type/*` family describes what kind of object a link is: `repo`, `guide`, `paper`, `service`, `directory`, `pattern`, `tutorial`, or `idea`. Extend this list only if a real gap appears in your actual saved links.
+  </Card>
+  <Card title="Priority Markers" icon="flag">
+    The `priority/*` family contains a single built-in value: `priority/high`. This is an operator attention marker — it does not replace `status/*` or `next/*`. Add new priority values only if your workflow genuinely needs them and you have operator approval.
+  </Card>
+  <Card title="Golden Examples" icon="star">
+    The `docs/05_EXAMPLES_GOLDEN.md` file contains synthetic examples designed to prevent taxonomy drift. Replace them with real entries from your own reviewed links so the AI assistant has examples that match your actual decisions, not generic ones.
+  </Card>
+</CardGroup>
+
+## The Core Rule: Tags Help You Find and Decide Later
+
+The simplest test for any tag is this: will it help you find this entry later, or help you make a better decision when you return to it? Tags are not expressive labels, sentiment signals, or notes to yourself about how you felt when you saved the link. They are a controlled vocabulary for retrieval and judgment.
+
+This rule applies to every family — fit, domain, type, status, truth, risk, and next.
+
+## Good Tags vs. Bad Tags
+
+The difference between useful tags and noisy tags is specificity and interrogability. A useful tag can be queried with intent. A vague tag can only be filtered out.
+
+```text
+# Bad tags — emotional, vague, or duplicate
+cool
+interesting
+maybe
+good
+AI
+tool
+
+# Good tags — specific, interrogable, and actionable
+truth/plausible
+authority/source-code
+status/core-good
+risk/overpromised
+fit/free-tier-real
+```
+
+Bad tags accumulate silently and make the library harder to search. They also create the illusion that an entry has been evaluated when it has only been labeled.
+
+## Governance: Unauthorized Tag Creation Is Not Allowed
+
+The tag taxonomy is a controlled grammar. Every value in every family exists because a human operator approved it. The AI assistant is not permitted to grow the taxonomy on its own.
+
+<Warning>
+  The AI may **not** create new tag families, new tag values, emotional tags, convenience tags, temporary tags, synonyms, or broad generic tags without explicit operator approval. This applies even when the assistant is confident a new tag would be useful. The assistant must report the gap, propose the smallest possible addition, and then **wait** before using it.
+</Warning>
+
+The approved families are:
+
+```text
+authority/*   truth/*   status/*   type/*   domain/*
+source/*      scenario/*   risk/*   stack/*   fit/*
+next/*        priority/*
+```
+
+No new family may be created without operator approval. No new value within an existing family may be used until approved.
+
+## When to Add New Tags
+
+A tag gap is not a failure — it is useful information. If an entry genuinely cannot be described by any existing tag value, the correct response is:
+
+<Steps>
+  <Step title="Identify the gap">
+    The AI reports which family is missing a value and explains why no existing value fits the entry.
+  </Step>
+  <Step title="Propose the smallest addition">
+    The AI proposes the most minimal new tag that fills the gap — one value, not a new family or a set of synonyms.
+  </Step>
+  <Step title="Wait for approval">
+    The AI does not use the proposed tag until the operator explicitly approves it. Silence is not approval. Prior similar approval is not approval.
+  </Step>
+  <Step title="Add to the registry">
+    Once approved, the operator adds the new value to `docs/02_TAG_REGISTRY.md` so it becomes part of the canonical grammar.
+  </Step>
+</Steps>
+
+This process keeps the taxonomy honest and prevents tag sprawl from degrading the library over time.

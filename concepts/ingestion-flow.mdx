@@ -1,0 +1,55 @@
+---
+title: "How Links Move Through the Decision Rain Ingestion Pipeline"
+sidebarTitle: "Ingestion Flow"
+description: "Trace a link from first capture through AI analysis and operator validation to final placement across the four-stage Decision Rain ingestion pipeline."
+---
+
+Every link that enters the Decision Rain Library Project follows the same four-stage pipeline. The pipeline is not optional and it is not a suggestion — each stage has a distinct responsibility, and skipping any stage undermines the integrity of the decision record. The goal is to separate trace preservation (saving the link) from analysis (understanding what it is) from decision (the operator saying what to do with it). Those three things happen in order, never simultaneously.
+
+## The Four-Stage Pipeline
+
+<Steps>
+  <Step title="Capture — Link saved to 00_INBOX">
+    The operator or the assistant saves the new link to `00_INBOX` immediately. At this stage the entry receives exactly two pieces of metadata: the tag `status/pending-review` and one `next/*` tag that reflects the most likely next action. Nothing else is filled in yet. The purpose of this step is pure trace preservation — the link is in the system and will not be lost, regardless of what happens next.
+  </Step>
+
+  <Step title="Analysis — Assistant fills the note template">
+    The assistant inspects the target using available tools, fills the full note template, and proposes a complete tag set along with a recommended collection. The proposal includes the authority source, a truth assessment, a fit judgment where adoption is relevant, a verdict, and any uncertainty the assistant cannot resolve. The entry remains in `00_INBOX` or moves to `10_REVIEW` during this stage — it does not move to `20_LIBRARY`. The status stays `status/pending-review` until the operator acts.
+
+    If the assistant cannot inspect the target — because the page is behind a login, the URL is broken, the tool has no access, or evidence is insufficient — it stops. It reports what was saved, what evidence is available, what evidence is missing, what tool or access problem was encountered, and the minimum step needed to unblock evaluation. The entry stays in `00_INBOX` with `status/pending-review` until the problem is resolved.
+  </Step>
+
+  <Step title="Operator Validation — Promotion or rejection">
+    The operator reviews the assistant's proposal and makes an explicit decision. If the entry is worth further structured analysis, the operator promotes it to `10_REVIEW`. If it is ready for the library, the operator promotes it directly to `20_LIBRARY` after confirming that all required fields are correct. If the entry is rejected or already obsolete, the operator moves it to `90_ARCHIVE`. No promotion happens without this explicit step.
+  </Step>
+
+  <Step title="Placement — Final collection and status confirmed">
+    Once the operator has validated the entry, the assistant updates the record with the confirmed tags, final collection, and any corrections from the review. Entries in `20_LIBRARY` are complete decision records. Entries in `90_ARCHIVE` are closed. Entries that return to `10_REVIEW` continue cycling through stages two and three until a final decision is made.
+  </Step>
+</Steps>
+
+## What status/pending-review Means
+
+<Info>
+`status/pending-review` means the assistant has processed and saved this entry, but the operator has not yet validated it. An entry carrying this tag is a proposal, not a decision. Do not treat it as canonical, do not act on its recommendations, and do not use it as a reference in other entries until the operator has explicitly confirmed it. Any entry still tagged `status/pending-review` in `20_LIBRARY` is there in error and should be returned to `10_REVIEW` immediately.
+</Info>
+
+## Saving a Link vs. Making a Decision
+
+These are two different acts and they must never be treated as equivalent. Saving a link to `00_INBOX` is a trace preservation action — it means "this signal exists and I have not lost it." Making a decision means the operator has reviewed the evidence, validated the analysis, and explicitly confirmed the final collection, status, truth level, and next action. An entry can sit in `00_INBOX` for days with only a URL and two tags. That is fine. What is not fine is treating that entry as though the operator has made a judgment about it.
+
+## Serious Entry Requirements
+
+A serious evaluated entry — one eligible for `20_LIBRARY` — must include all of the following before operator validation is requested:
+
+- **One collection** — exactly one; the entry may not span collections
+- **`status/*`** — the current operational status from the approved taxonomy
+- **`type/*`** — the resource type (tool, guide, repository, article, service, etc.)
+- **`domain/*`** — the subject domain or technical area
+- **`truth/*`** — the evidence quality level for the claims in the entry
+- **`fit/*`** — required whenever adoption is a live question; omit only for pure reference or archive entries
+- **`next/*`** — exactly one next action tag indicating what the operator should do with this entry
+- **`Cataloged` date** — the ISO date the entry was first processed
+- **Note in template format** — a concise structured note covering source, claims, evidence, verdict, and uncertainty
+
+If any of these fields is missing, the assistant must not propose promotion to `20_LIBRARY`. It must flag the gap, explain what is missing, and keep the entry in `10_REVIEW` or `00_INBOX` until the operator provides or approves the missing information.

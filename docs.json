@@ -1,72 +1,90 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Decision Rain Library Project",
+  "theme": "willow",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
-  },
-  "favicon": "/favicon.svg",
-  "navigation": {
-    "pages": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "primary": "#4A6CF7",
+    "light": "#EEF2FF",
+    "dark": "#1E2A5E"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
     "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "type": "github",
+      "href": "https://github.com/XxYouDeaDPunKxX/decision-rain-library-project"
     }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/XxYouDeaDPunKxX/decision-rain-library-project"
     }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guide",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "introduction",
+              "how-it-works",
+              "setup"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "concepts/collections",
+              "concepts/ingestion-flow",
+              "concepts/decision-levels"
+            ]
+          },
+          {
+            "group": "Daily Usage",
+            "pages": [
+              "usage/daily-flow",
+              "usage/signals",
+              "usage/maintenance"
+            ]
+          },
+          {
+            "group": "Customization",
+            "pages": [
+              "customization/overview",
+              "customization/fit-tags"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Tags & Rules",
+            "pages": [
+              "reference/tag-registry",
+              "reference/decision-rules",
+              "reference/stackfit"
+            ]
+          },
+          {
+            "group": "Templates & Examples",
+            "pages": [
+              "reference/note-template",
+              "reference/examples",
+              "reference/collection-structure"
+            ]
+          },
+          {
+            "group": "Agent Contract",
+            "pages": [
+              "reference/agent-contract",
+              "reference/agent-proposals",
+              "reference/normalization"
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
