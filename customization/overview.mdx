@@ -1,7 +1,7 @@
 ---
-title: "Customizing the Decision Rain Template"
+title: "How to Customize the Decision Rain Library Template"
 sidebarTitle: "Customization"
-description: "Learn which parts of the Decision Rain template to adapt — fit tags, domains, item types, priority markers, and examples — and how governance rules protect the taxonomy."
+description: "Adapt fit tags, domains, item types, priority markers, and examples to your environment. Governance rules protect the taxonomy from unauthorized changes."
 ---
 
 The Decision Rain Library Project is deliberately small and opinionated, but it is not meant to run unchanged out of the box. The tag families, example entries, and fit judgments in this template reflect a starting point — not a finished personal system. Before you use this seriously, you should adapt it so that the tags describe your actual environment, the domains reflect the topics you care about, and the examples mirror the kinds of links you actually save.
@@ -11,19 +11,19 @@ The Decision Rain Library Project is deliberately small and opinionated, but it 
 Each area below corresponds to a concrete part of the template. Start with the ones that feel most wrong for your situation.
 
 <CardGroup cols={2}>
-  <Card title="Fit Tags" icon="wrench">
+  <Card title="Fit Tags" icon="wrench" href="/customization/fit-tags">
     Define what tools, accounts, devices, budget constraints, and setup friction thresholds are real for your environment. The built-in fit tags are a reasonable default, but your stack may differ.
   </Card>
-  <Card title="Domains" icon="folder-open">
+  <Card title="Domains" icon="folder-open" href="/reference/tag-registry">
     The `domain/*` family captures the topic or subject area of a saved link. Add values for the domains you work in — automation, writing, design, hardware, research, productivity, or anything else that matters to your workflow.
   </Card>
-  <Card title="Item Types" icon="tag">
+  <Card title="Item Types" icon="tag" href="/reference/tag-registry">
     The `type/*` family describes what kind of object a link is: `repo`, `guide`, `paper`, `service`, `directory`, `pattern`, `tutorial`, or `idea`. Extend this list only if a real gap appears in your actual saved links.
   </Card>
-  <Card title="Priority Markers" icon="flag">
+  <Card title="Priority Markers" icon="flag" href="/reference/tag-registry">
     The `priority/*` family contains a single built-in value: `priority/high`. This is an operator attention marker — it does not replace `status/*` or `next/*`. Add new priority values only if your workflow genuinely needs them and you have operator approval.
   </Card>
-  <Card title="Golden Examples" icon="star">
+  <Card title="Golden Examples" icon="star" href="/reference/examples">
     The `docs/05_EXAMPLES_GOLDEN.md` file contains synthetic examples designed to prevent taxonomy drift. Replace them with real entries from your own reviewed links so the AI assistant has examples that match your actual decisions, not generic ones.
   </Card>
 </CardGroup>
